@@ -9,7 +9,7 @@ const pageTitle = 'Blog';
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <section>
+  <!-- <section>
     <ul>
       {
         posts.map((post) => (
@@ -23,5 +23,44 @@ const pageTitle = 'Blog';
         ))
       }
     </ul>
-  </section>
+  </section> -->
+
+  <!-- Card Blog -->
+  <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <!-- Title -->
+    <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
+      <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Latest Articles</h2>
+      <p class="mt-1 text-gray-600 dark:text-gray-400">
+        See how game-changing companies are making the most of every engagement with Preline.
+      </p>
+    </div>
+    <!-- End Title -->
+
+    <!-- Grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Card -->
+
+      {
+        posts.map((post) => (
+          <a class="group block" href={`/blog/${post.slug}/`}>
+            <div class="aspect-w-16 aspect-h-9">
+              <img
+                class="w-full object-cover rounded-xl"
+                width={720}
+                height={360}
+                src={post.data.image.url}
+                alt={post.data.image.alt}
+              />
+            </div>
+            <h3 class="mt-2 text-lg font-medium text-gray-800 group-hover:text-blue-600 dark:text-gray-300 dark:group-hover:text-white">
+              {post.data.title}
+            </h3>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{formatDate(post.data.pubDate)}</p>
+          </a>
+        ))
+      }
+    </div>
+    <!-- End Grid -->
+  </div>
+  <!-- End Card Blog -->
 </BaseLayout>

@@ -6,6 +6,6 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://vguleaev.dev',
+  site: 'https://vguleaev-dev.vercel.app',
   integrations: [mdx(), sitemap(), tailwind()],
 });

@@ -37,6 +37,7 @@
 .prose > pre {
 	padding: 1.5em;
 	border-radius: 8px;
+  font-size: 15px;
   @apply my-5;
 }
 

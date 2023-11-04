@@ -6,13 +6,13 @@ import ThemeSwitcher from './ThemeSwitcher.astro';
 
 <header class="bg-white dark:bg-slate-900 text-gray-800 dark:text-gray-200">
   <nav>
-    <h2><a href="/">{SITE_TITLE}</a></h2>
+    <h2 class="site-title text-xl"><a href="/">{SITE_TITLE}</a></h2>
     <div class="internal-links">
       <HeaderLink href="/">Home</HeaderLink>
       <HeaderLink href="/blog">Blog</HeaderLink>
       <HeaderLink href="/about">About</HeaderLink>
     </div>
-    <div class="social-links flex just-center items-center gap-4">
+    <div class="social-links flex just-center items-center gap-4 pb-2">
       <ThemeSwitcher />
       <a class="header-link" href={TWITTER_LINK} target="_blank">
         <span class="sr-only">Follow Astro on Twitter</span>
@@ -44,7 +44,8 @@ import ThemeSwitcher from './ThemeSwitcher.astro';
   }
   h2 {
     margin: 0;
-    font-size: 1em;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
   }
 
   h2 a,
@@ -60,6 +61,8 @@ import ThemeSwitcher from './ThemeSwitcher.astro';
     padding: 1em 0.5em;
     border-bottom: 4px solid transparent;
     text-decoration: none;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
   }
   .internal-links a.active {
     text-decoration: none;
@@ -67,6 +70,9 @@ import ThemeSwitcher from './ThemeSwitcher.astro';
   }
   @media (max-width: 720px) {
     .header-link {
+      display: none;
+    }
+    .site-title {
       display: none;
     }
   }
