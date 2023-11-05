@@ -3,7 +3,7 @@ title: 'Second post'
 description: 'Lorem ipsum dolor sit amet'
 pubDate: 2022-07-22
 image:
-  url: './covers/blog-placeholder-3.png'
+  url: './covers/blog-placeholder-2.png'
   alt: 'Blog post image'
 tags: ['astro', 'successes']
 ---

@@ -4,12 +4,24 @@ import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import BaseHead from '../components/BaseHead.astro';
 import { ViewTransitions } from 'astro:transitions';
-const { pageTitle, image } = Astro.props;
+
+interface Props {
+  pageTitle: string;
+  description?: string;
+  image?: {
+    url: {
+      src: string;
+    };
+    alt: string;
+  };
+}
+
+const { pageTitle, image, description } = Astro.props;
 ---
 
 <html lang="en" class="h-full">
   <head>
-    <BaseHead title={pageTitle} image={image} />
+    <BaseHead title={pageTitle} description={description} image={image?.url.src} />
     <ViewTransitions />
   </head>
   <body class="bg-white dark:bg-slate-900 flex flex-col h-full">
