@@ -8,14 +8,13 @@ import ThemeSwitcher from './ThemeSwitcher.astro';
   <nav>
     <h2 class="site-title text-xl"><a href="/">{SITE_TITLE}</a></h2>
     <div class="internal-links">
-      <HeaderLink href="/">Home</HeaderLink>
-      <HeaderLink href="/blog">Blog</HeaderLink>
-      <HeaderLink href="/about">About</HeaderLink>
+      <HeaderLink class="w-[70px] text-center" href="/blog">Blog</HeaderLink>
+      <HeaderLink class="w-[70px] text-center" href="/tags">Tags</HeaderLink>
+      <HeaderLink class="w-[70px] text-center" href="/about">About</HeaderLink>
     </div>
-    <div class="social-links flex just-center items-center gap-4 pb-2">
+    <div class="social-links flex just-center items-center gap-4 pb-3">
       <ThemeSwitcher />
       <a class="header-link" href={TWITTER_LINK} target="_blank">
-        <span class="sr-only">Follow Astro on Twitter</span>
         <svg viewBox="0 0 16 16" aria-hidden="true" width="20" height="20"
           ><path
             fill="currentColor"
@@ -24,7 +23,6 @@ import ThemeSwitcher from './ThemeSwitcher.astro';
         >
       </a>
       <a class="header-link" href={GITHUB_LINK} target="_blank">
-        <span class="sr-only">Go to Astro's GitHub repo</span>
         <svg viewBox="0 0 16 16" aria-hidden="true" width="20" height="20"
           ><path
             fill="currentColor"
