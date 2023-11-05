@@ -3,7 +3,7 @@ title: 'Announcing a free plan for small teams'
 description: 'Lorem ipsum dolor sit amet'
 pubDate: 2023-01-18
 image:
-  url: './covers/blog-placeholder-3.jpg'
+  url: './covers/blog-placeholder-3.png'
   alt: 'Blog post image'
 tags: ['astro', 'blogging', 'learning in public']
 ---
