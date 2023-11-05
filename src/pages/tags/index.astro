@@ -7,33 +7,25 @@ const pageTitle = 'Tags';
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <div class="tags">
-    {
-      tags.map((tag) => (
-        <p class="tag">
-          <a href={`/tags/${tag}`}>{tag}</a>
-        </p>
-      ))
-    }
+  <div class="flex justify-center">
+    <div class="max-w-3xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
+        <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">See posts by tags from here</h2>
+      </div>
+
+      <div class="flex flex-row flex-wrap gap-2">
+        {
+          tags.map((tag) => (
+            <div class="mb-2">
+              <a
+                class="m-1 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200"
+                href={`/tags/${tag}`}>
+                {tag}
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
   </div>
 </BaseLayout>
-
-<style>
-  a {
-    color: #00539f;
-  }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .tag {
-    margin: 0.25em;
-    border: dotted 1px #a1a1a1;
-    border-radius: 0.5em;
-    padding: 0.5em 1em;
-    font-size: 1.15em;
-    background-color: #f8fcfd;
-  }
-</style>

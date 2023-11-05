@@ -1,10 +1,27 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-const pageTitle = 'Home Page';
+import { formatDate } from '../utils/date.helper';
+import BlogPost from '../components/BlogPost.astro';
 
-return Astro.redirect('/blog');
+const allPosts = await getCollection('blog');
+const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const pageTitle = 'Blog';
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <div></div>
+  <div class="flex justify-center">
+    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
+        <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Latest Articles</h2>
+        <p class="mt-1 text-gray-600 dark:text-gray-400">
+          Read my latest posts about web development, programming, and more.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.map((post) => <BlogPost post={post} />)}
+      </div>
+    </div>
+  </div>
 </BaseLayout>
