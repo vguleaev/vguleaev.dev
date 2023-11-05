@@ -3,8 +3,8 @@ title: 'Third post'
 description: 'Lorem ipsum dolor sit amet'
 pubDate: 2022-09-10
 image:
-  url: '/blog-placeholder-2.jpg'
-  alt: 'The full Astro logo.'
+  url: './covers/blog-placeholder-2.jpg'
+  alt: 'Blog post image'
 tags: ['astro', 'learning in public', 'setbacks', 'community']
 ---
 

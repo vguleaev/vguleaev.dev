@@ -3,8 +3,8 @@ title: 'Announcing a free plan for small teams'
 description: 'Lorem ipsum dolor sit amet'
 pubDate: 2023-01-18
 image:
-  url: '/blog-placeholder-3.jpg'
-  alt: 'The full Astro logo.'
+  url: './covers/blog-placeholder-3.jpg'
+  alt: 'Blog post image'
 tags: ['astro', 'blogging', 'learning in public']
 ---
 
@@ -12,7 +12,7 @@ At preline, our mission has always been focused on bringing openness and transpa
 
 We're proud to be a part of creating a more open culture and to continue building a product that supports this vision.
 
-![Alt text](https://images.unsplash.com/photo-1670272505340-d906d8d77d03?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80)
+![Alt text](../../images/posts/photo1.avif)
 
 As we've grown, we've seen how Preline has helped companies such as Spotify, Microsoft, Airbnb, Facebook, and Intercom bring their designers closer together to create amazing things. We've also learned that when the culture of sharing is brought in earlier, the better teams adapt and communicate with one another..
 

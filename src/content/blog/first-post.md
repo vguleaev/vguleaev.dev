@@ -3,8 +3,8 @@ title: 'First post'
 description: 'Lorem ipsum dolor sit amet'
 pubDate: 2022-07-08
 image:
-  url: '/blog-placeholder-3.jpg'
-  alt: 'The full Astro logo.'
+  url: './covers/blog-placeholder-3.jpg'
+  alt: 'Blog post image'
 tags: ['astro', 'blogging', 'learning in public']
 ---
 

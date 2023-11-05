@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import { formatDate } from '../utils/date.helper';
 import BaseLayout from './BaseLayout.astro';
 import PostTags from '../components/PostTags.astro';
+import { Image } from 'astro:assets';
 
 type Props = CollectionEntry<'blog'>['data'];
 
@@ -12,7 +13,7 @@ const { title, description, pubDate, image, tags } = Astro.props;
 <BaseLayout pageTitle={title} description={description} image={image.url}>
   <article class="max-w-3xl px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 md:mx-auto">
     <div>
-      <img class="w-full object-cover rounded-xl mb-10" width={1020} height={510} src={image.url} alt={image.alt} />
+      <Image class="w-full object-cover rounded-xl mb-10" width={1020} height={510} src={image.url} alt={image.alt} />
     </div>
     <div>
       <div>

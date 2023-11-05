@@ -1,11 +1,12 @@
 ---
+import { Image } from 'astro:assets';
 import { formatDate } from '../utils/date.helper';
 const { post } = Astro.props;
 ---
 
 <a class="group block" href={`/blog/${post.slug}/`}>
-  <div class="aspect-w-16 aspect-h-9">
-    <img
+  <div>
+    <Image
       class="w-full object-cover rounded-xl"
       width={720}
       height={360}
