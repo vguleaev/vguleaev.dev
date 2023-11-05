@@ -7,7 +7,7 @@ import vercel from '@astrojs/vercel/static';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://vguleaev-dev.vercel.app',
+  site: 'https://vguleaev.dev',
   integrations: [mdx(), sitemap(), tailwind()],
   output: 'static',
   adapter: vercel({
