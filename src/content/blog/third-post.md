@@ -3,7 +3,7 @@ title: 'Third post'
 description: 'Lorem ipsum dolor sit amet'
 pubDate: 2022-09-10
 image:
-  url: './covers/blog-placeholder-3.png'
+  url: './covers/blog-placeholder-1.png'
   alt: 'Blog post image'
 tags: ['astro', 'learning in public', 'setbacks', 'community']
 ---
