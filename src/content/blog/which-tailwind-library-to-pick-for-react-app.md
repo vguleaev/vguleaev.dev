@@ -1,11 +1,11 @@
 ---
-title: 'Second post'
+title: 'Which Tailwind library to pick for React app'
 description: 'Lorem ipsum dolor sit amet'
-pubDate: 2022-07-22
+pubDate: 2023-09-10
 image:
-  url: './covers/blog-placeholder-2.png'
+  url: './covers/which-tailwind-library-to-pick-for-react-app.png'
   alt: 'Blog post image'
-tags: ['astro', 'successes']
+tags: ['Tailwind', 'React', 'NextJs']
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.

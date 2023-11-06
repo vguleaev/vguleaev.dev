@@ -3,7 +3,7 @@ title: 'How to build personal blog with Astro'
 description: 'You always wanted to start a personal blog? Make website portfolio and start posting tech articles?'
 pubDate: 2023-11-04
 image:
-  url: './covers/blog-placeholder-3.png'
+  url: './covers/how-to-build-blog-with-astro.png'
   alt: 'Blog post image'
 tags: ['Astro', 'Tailwind', 'Vercel']
 ---
@@ -133,13 +133,11 @@ I used [Midjourney](https://www.midjourney.com/) to generate my blog post covers
 Here is some prompt to Midjourney when I generated this post cover
 
 ```
-A futuristic cityscape with towering skyscrapers, flying
-vehicles, and a diverse population of humans and robots,
-painted in a concept art style inspired by Syd Mead, with a
-focus on detail and realism. --ar 7:4
+a man sitting in front of laptop and reading a book
+in cartoon abstract style, warm colors --ar 7:4
 ```
 
-![Alt text](./covers/blog-placeholder-3.png)
+![Alt text](./covers/how-to-build-blog-with-astro.png)
 
 Note that in the end I put `--ar 7:4`? This is to set aspect ratio of image to make it wider. You of course can make image full square and don't do this.
 
