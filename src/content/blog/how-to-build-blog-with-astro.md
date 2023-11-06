@@ -98,7 +98,7 @@ One more thing here, the redirects part didn't work for me, at least it worked l
 
 Your blog is ready and deployed 🥳! But its missing some content probably. Before you start creating those `.md` files I need to tell you something.
 
-Astro will transform md files to html. That means a text block im .md file will be transformed to `<p>`. This is of course not styled and looks ugly. You will need to style those tags in some `globals.css` file but be careful so they don't leak to the rest of the app!
+Astro will transform md files to html. That means a text block in `.md` file will be transformed to `<p>`. This is of course not styled and looks ugly. You will need to style those tags in some `globals.css` file but be careful so they don't leak to the rest of the app!
 
 This is part of how I did it:
 
@@ -124,7 +124,7 @@ You can put all the images under `/public` folder but then you lose a possibilit
 
 I highly recommend to use Image Optimization and store all the blog post covers in `/src` folder. You can read more how to setup it [here](https://docs.astro.build/en/guides/images/).
 
-Just don't forget ot install `sharp` as dev dependency or it will fail during deployment on Vercel 😁.
+Just don't forget to install `sharp` as dev dependency or it will fail during deployment on Vercel 😁.
 
 Bonus tip:
 

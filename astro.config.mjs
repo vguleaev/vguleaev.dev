@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 
 import vercel from '@astrojs/vercel/static';
+import { remarkReadingTime } from './src/utils/reading-time.helper';
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,5 +21,8 @@ export default defineConfig({
   }),
   redirects: {
     '/blog': '/',
+  },
+  markdown: {
+    remarkPlugins: [remarkReadingTime],
   },
 });

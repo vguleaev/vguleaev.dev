@@ -5,9 +5,9 @@ const { post } = Astro.props;
 ---
 
 <a class="group block" href={`/blog/${post.slug}/`}>
-  <div>
+  <div class="overflow-hidden rounded-xl">
     <Image
-      class="w-full object-cover rounded-xl"
+      class="w-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-500 ease-in-out"
       width={720}
       height={360}
       src={post.data.image.url}

@@ -35,6 +35,9 @@ dependencies:
   preline:
     specifier: ^1.9.0
     version: 1.9.0
+  reading-time-estimator:
+    specifier: ^1.9.0
+    version: 1.9.0
   tailwindcss:
     specifier: ^3.0.24
     version: 3.3.5
@@ -3837,6 +3840,10 @@ packages:
     engines: {node: '>=8.10.0'}
     dependencies:
       picomatch: 2.3.1
+    dev: false
+
+  /reading-time-estimator@1.9.0:
+    resolution: {integrity: sha512-fVuTlAfcYXE9A4KrTOq0Ao4vn9vJxYVFpATjS6KFA5xCK5RTmq6q74ICrO7ykF3Mg2XTgL9mBrwADgXQgEolIw==}
     dev: false
 
   /rehype-parse@8.0.5:
