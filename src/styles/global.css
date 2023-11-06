@@ -28,10 +28,9 @@
   @apply text-blue-600 decoration-2 hover:underline font-medium;
 }
 
-.prose > code {
-	padding: 2px 5px;
-	background-color: rgb(var(--gray-light));
-	border-radius: 2px;
+.prose > p > code {
+	padding: 3px 5px;
+  @apply bg-gray-200 dark:bg-gray-800 text-sm text-gray-800 dark:text-gray-200 rounded-md;
 }
 
 .prose > pre {
