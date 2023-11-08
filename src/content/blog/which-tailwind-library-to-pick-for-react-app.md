@@ -1,19 +1,99 @@
 ---
 title: 'Which Tailwind library to pick for React app'
-description: 'Lorem ipsum dolor sit amet'
-pubDate: 2023-09-10
+description: I know that I want to use React and Tailwind but don't want to write Javascript for components to be interactive. I had to choose some Tailwind component library!
+pubDate: 2023-10-10
 image:
   url: './covers/which-tailwind-library-to-pick-for-react-app.png'
   alt: 'Blog post image'
 tags: ['Tailwind', 'React', 'NextJs']
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
+I enjoy creating my frontend projects with **Nextjs** and **React**. Also **Tailwind** is the second must have thing in my tech stack. I wanted to avoid reinventing over and over again same basic components like Modals, Dropdowns, Selects, Tables and focus on building application logic. And there are many ways you can go...
 
-Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc. Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra massa massa ultricies mi.
+I am pretty sure I want to use React and Tailwind but don't want to write Javascript for components to be interactive. Obviously I had to pick up some **Tailwind** component library. But there are so many of them 😨.
 
-Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
+In this article I am going to compare most popular Tailwind component libraries and also tell which are the best in my opinion.
 
-Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id cursus metus aliquam eleifend mi.
+Let's go! 😀
 
-Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
+## Candidates
+
+Tailwind CSS libraries:
+
+- **Flowbite**
+  https://flowbite.com/
+- **Material Tailwind**
+  https://www.material-tailwind.com/
+- **Preline UI**
+  https://preline.co/
+- **Next UI**
+  https://nextui.org/
+- **Wind UI**
+  https://wind-ui.com/
+- **Daisy UI**
+  https://daisyui.com/
+- **Ripple UI**
+  https://www.ripple-ui.com/
+- **Sira UI**
+  https://www.sira-design.party/
+- **Sailboat UI**
+  https://sailboatui.com/
+- **Meraki UI**
+  https://merakiui.com/
+
+There two things they all have in common: they all use Tailwind and they all look pretty nice 😍!
+
+Now let's compare them one by one in order by my personal rating:
+
+## Next UI
+
+Top library! Looks extremely elegant and beautiful. Uses [React Aria](https://react-spectrum.adobe.com/react-aria/index.html). Accessible components. You need to import components similar to Bootstrap. Has a lot of components and they look minimal and slim, easy to override styles by just adding Tailwind utility classes to className prop.
+
+## Material Tailwind
+
+Overall very good library for React, has a lot of components, reminds me of Bootsrap. You just import ready components and use them. Looks also very good. One drawback I notice, if you start to override styles it gets little bit messy.
+
+## Wind UI
+
+Very interesting and good looking library. It has no npm package, it uses default tailwind theme. All you need to do is copy pate the components. It comes with fully ready React components that you can just copy pate into your project. Definitely deserves attention!
+
+## Flowbite
+
+Flowbite is one of the most stable and oldest Tailwind CSS libraries. It does not have JSX and in general can be used with any UI framework. It has interactive components (e.g. modal) but it comes with small javascript script that you need to import for reactivity. There is react version of Flowbite which is called Flowbite React. But I would not use it since its still in version zero and it's not safe to use unstable libraries.
+
+## Daisy UI
+
+Good library, pure CSS, has good amount of components, some of them done with default browser implementation (e.g native browsers Modals, Selects etc). No Javascript at all. You need make components interactive yourself.
+
+## Preline UI
+
+Looks very nice, has no React version, no JSX copy paste components. You need to install small javascript file for interactive components.
+
+## Ripple UI
+
+Looks good, no javascript at all, no JSX, installation via Tailwind config plugin.
+
+## Sira UI
+
+Looks descent, no javascript at all, but has JSX, installation via Tailwind config plugin.
+
+## Sailboat UI
+
+Looks nice, uses Alpine.js for interactivity, pure Tailwind no config or npm required.
+
+## Meraki UI
+
+Looks good, uses Alpine.js for interactivity, pure Tailwind no config or npm required.
+
+## Honorable mention
+
+[shadcn/ui](https://ui.shadcn.com/) is copy paste component library for React. It basically gives you source code for components written in React. You can just copy paste them or install via npm. Has amazing good looking style and good amount of components. All the components are built on top of Radix UI. Radix is a headless components, in other words functional components without styles.
+Must have to try it out in my opinion!
+
+## Conclusion
+
+Picking a CSS framework is a hard choice. I hope I could give you a small introduction about what is available for React+Tailwind.
+
+My advice is to check out every of them and choose something that that you like.
+
+Enjoy! Happy hacking! 😀
