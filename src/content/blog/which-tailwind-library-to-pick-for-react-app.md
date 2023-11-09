@@ -8,11 +8,11 @@ image:
 tags: ['Tailwind', 'React', 'NextJs']
 ---
 
-I enjoy creating my frontend projects with **Nextjs** and **React**. Also **Tailwind** is the second must have thing in my tech stack. I wanted to avoid reinventing over and over again same basic components like Modals, Dropdowns, Selects, Tables and focus on building application logic. And there are many ways you can go...
+I enjoy creating my frontend projects with **Nextjs** and **React**. Also **Tailwind** is the second must have thing in my tech stack. I wanted to avoid reinventing over and over again the same basic components like Modals, Dropdowns, Selects, Tables and focus on building application logic. And there are many ways you can go...
 
 I am pretty sure I want to use React and Tailwind but don't want to write Javascript for components to be interactive. Obviously I had to pick up some **Tailwind** component library. But there are so many of them 😨.
 
-In this article I am going to compare most popular Tailwind component libraries and also tell which are the best in my opinion.
+In this article I am going to compare the most popular Tailwind component libraries and also tell which are the best in my opinion.
 
 Let's go! 😀
 
@@ -51,23 +51,23 @@ Top library! Looks extremely elegant and beautiful. Uses [React Aria](https://re
 
 ## Material Tailwind
 
-Overall very good library for React, has a lot of components, reminds me of Bootsrap. You just import ready components and use them. Looks also very good. One drawback I notice, if you start to override styles it gets little bit messy.
+Overall a very good library for React, has a lot of components, reminds me of Bootstrap. You just import ready components and use them. It also looks very good. One drawback I notice, if you start to override styles it gets a little bit messy.
 
 ## Wind UI
 
-Very interesting and good looking library. It has no npm package, it uses default tailwind theme. All you need to do is copy pate the components. It comes with fully ready React components that you can just copy pate into your project. Definitely deserves attention!
+Very interesting and good looking library. It has no npm package, it uses the default Tailwind theme. All you need to do is copy paste the components. It comes with fully ready React components that you can just copy paste into your project. Definitely deserves attention!
 
 ## Flowbite
 
-Flowbite is one of the most stable and oldest Tailwind CSS libraries. It does not have JSX and in general can be used with any UI framework. It has interactive components (e.g. modal) but it comes with small javascript script that you need to import for reactivity. There is react version of Flowbite which is called Flowbite React. But I would not use it since its still in version zero and it's not safe to use unstable libraries.
+Flowbite is one of the most stable and oldest Tailwind CSS libraries. It does not have JSX and in general can be used with any UI framework. It has interactive components (e.g. modal) but it comes with a small javascript file that you need to import for reactivity. There is a React version of Flowbite which is called Flowbite React. But I would not use it since it's still in version zero and it's not safe to use unstable libraries.
 
 ## Daisy UI
 
-Good library, pure CSS, has good amount of components, some of them done with default browser implementation (e.g native browsers Modals, Selects etc). No Javascript at all. You need make components interactive yourself.
+Good library, pure CSS, has a good amount of components, some of them done with default browser implementation (e.g native browsers Modals, Selects etc). No Javascript at all. You need to make components interactive yourself.
 
 ## Preline UI
 
-Looks very nice, has no React version, no JSX copy paste components. You need to install small javascript file for interactive components.
+Looks very nice, has no React version, no JSX copy paste components. You need to add a small javascript file for interactive components.
 
 ## Ripple UI
 
@@ -75,7 +75,7 @@ Looks good, no javascript at all, no JSX, installation via Tailwind config plugi
 
 ## Sira UI
 
-Looks descent, no javascript at all, but has JSX, installation via Tailwind config plugin.
+Looks decent, no javascript at all, but has JSX, installation via Tailwind config plugin.
 
 ## Sailboat UI
 
@@ -87,13 +87,13 @@ Looks good, uses Alpine.js for interactivity, pure Tailwind no config or npm req
 
 ## Honorable mention
 
-[shadcn/ui](https://ui.shadcn.com/) is copy paste component library for React. It basically gives you source code for components written in React. You can just copy paste them or install via npm. Has amazing good looking style and good amount of components. All the components are built on top of Radix UI. Radix is a headless components, in other words functional components without styles.
+[shadcn/ui](https://ui.shadcn.com/) is a copy paste component library for React. It basically gives you source code for components written in React. You can just copy paste them or install via npm. Has an amazing good looking style and a good amount of components. All the components are built on top of Radix UI. Radix is a headless component, in other words functional components without styles.
 Must have to try it out in my opinion!
 
 ## Conclusion
 
 Picking a CSS framework is a hard choice. I hope I could give you a small introduction about what is available for React+Tailwind.
 
-My advice is to check out every of them and choose something that that you like.
+My advice is to check out every one of them and choose something that you like.
 
 Enjoy! Happy hacking! 😀
