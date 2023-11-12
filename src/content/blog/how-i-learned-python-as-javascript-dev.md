@@ -248,6 +248,8 @@ person = Person('John', 'Doe')
 print(person.get_full_name()) # John Doe
 ```
 
+Double underscore in the beginning of a class property name is needed to make property private. In Python it will give you an error if you try to access private fields.
+
 ## Builtin functions
 
 Python has very rich standard library with many utility functions. I will show just some of them.
