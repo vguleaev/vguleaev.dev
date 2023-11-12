@@ -8,7 +8,9 @@ image:
 tags: ['Tailwind', 'React', 'NextJs']
 ---
 
-I enjoy creating my frontend projects with **Nextjs** and **React**. Also **Tailwind** is the second must have thing in my tech stack. I wanted to avoid reinventing over and over again the same basic components like Modals, Dropdowns, Selects, Tables and focus on building application logic. And there are many ways you can go...
+I enjoy creating my frontend projects with **Nextjs** and **React**. Also **Tailwind** is the second must have thing in my tech stack. I wanted to avoid reinventing over and over again the same basic components like Modals, Dropdowns, Selects, Tables and focus on building application logic.
+
+One of the way to solve my problem is to pick a headless component library like [Radix](https://www.radix-ui.com/) or [React Aria](https://react-spectrum.adobe.com/react-aria/) and create styles on top of them. But maybe it's already done for me? 😃
 
 I am pretty sure I want to use React and Tailwind but don't want to write Javascript for components to be interactive. Obviously I had to pick up some **Tailwind** component library. But there are so many of them 😨.
 
@@ -18,28 +20,30 @@ Let's go! 😀
 
 ## Candidates
 
+![Alt text](../../images/posts/tailwinds-libs-comparison.png)
+
 Tailwind CSS libraries:
 
 - **Flowbite**
-  https://flowbite.com/
+  https://flowbite.com
 - **Material Tailwind**
-  https://www.material-tailwind.com/
-- **Preline UI**
-  https://preline.co/
+  https://www.material-tailwind.com
+- **Preline**
+  https://preline.co
 - **Next UI**
-  https://nextui.org/
+  https://nextui.org
 - **Wind UI**
-  https://wind-ui.com/
-- **Daisy UI**
-  https://daisyui.com/
+  https://wind-ui.com
+- **Daisy**
+  https://daisyui.com
 - **Ripple UI**
-  https://www.ripple-ui.com/
+  https://www.ripple-ui.com
 - **Sira UI**
-  https://www.sira-design.party/
+  https://www.sira-design.party
 - **Sailboat UI**
-  https://sailboatui.com/
+  https://sailboatui.com
 - **Meraki UI**
-  https://merakiui.com/
+  https://merakiui.com
 
 There two things they all have in common: they all use Tailwind and they all look pretty nice 😍!
 
@@ -61,11 +65,11 @@ Very interesting and good looking library. It has no npm package, it uses the de
 
 Flowbite is one of the most stable and oldest Tailwind CSS libraries. It does not have JSX and in general can be used with any UI framework. It has interactive components (e.g. modal) but it comes with a small javascript file that you need to import for reactivity. There is a React version of Flowbite which is called Flowbite React. But I would not use it since it's still in version zero and it's not safe to use unstable libraries.
 
-## Daisy UI
+## Daisy
 
 Good library, pure CSS, has a good amount of components, some of them done with default browser implementation (e.g native browsers Modals, Selects etc). No Javascript at all. You need to make components interactive yourself.
 
-## Preline UI
+## Preline
 
 Looks very nice, has no React version, no JSX copy paste components. You need to add a small javascript file for interactive components.
 
@@ -85,9 +89,9 @@ Looks nice, uses Alpine.js for interactivity, pure Tailwind no config or npm req
 
 Looks good, uses Alpine.js for interactivity, pure Tailwind no config or npm required.
 
-## Honorable mention
+## Honorable mention - shadcn
 
-[shadcn/ui](https://ui.shadcn.com/) is a copy paste component library for React. It basically gives you source code for components written in React. You can just copy paste them or install via npm. Has an amazing good looking style and a good amount of components. All the components are built on top of Radix UI. Radix is a headless component, in other words functional components without styles.
+[shadcn/ui](https://ui.shadcn.com/) is a copy paste component library for React. It's built on top of [Radix UI](https://www.radix-ui.com/). It basically gives you source code for components written in React. You can just copy paste them or install via npm. Has an amazing good looking style and a good amount of components. All the components are built on top of Radix UI. Radix is a headless component, in other words functional components without styles.
 Must have to try it out in my opinion!
 
 ## Conclusion
