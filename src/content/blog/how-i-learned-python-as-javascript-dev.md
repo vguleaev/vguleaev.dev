@@ -10,15 +10,15 @@ tags: ['Python', 'Javascript']
 
 Python and Javascript share many similarities. They are both interpreted languages, dynamically typed and support both object-oriented and functional programming.
 
-But syntax has a lot of differences, starting with tab indentation that plays big role in Python and missing curly brackets from C-family style.
+But syntax has a lot of differences, starting with tab indentation that plays big a role in Python and missing curly brackets from C-family style.
 
-So now let's dive into in! 🏊🏼‍♂️
+So now let's dive into it! 🏊🏼‍♂️
 
 **Important:** If you have [Copilot](https://github.com/features/copilot) then turn it off 🛑! It will only do harm in the beginning!
 
 ## Variables
 
-In Python declaring variable is very short. Just give it a name. No const, let, var etc..
+In Python, declaring variable is very short. Just give it a name. No const, let, var etc..
 
 ```python
 age = 21
@@ -28,7 +28,7 @@ full_name = 'John Doe'
 
 ## Naming
 
-Python is using `snake_case` instead of common `camelCase` from Javascript. I personally don't care, both are fine. One saves chars but hurts readability. Common trade of in software development. 🤷
+Python is using `snake_case` instead of the common `camelCase` from Javascript. I personally don't care, both are fine. One saves chars but hurts readability. Common trade-off in software development. 🤷
 
 ## Comments
 
@@ -53,7 +53,7 @@ is_active = True # bool
 
 Numbers in Python work close to Javascript. Most operators are exactly the same: Addition, Subtraction, Modulo, Multiplication, Division.
 
-But there is one extra `//` its called Floor Division. Let's have a look at the example to understand:
+But there is one extra `//` called Floor Division. Let's have a look at the example to understand:
 
 ```python
 print(12.4 / 2) # 6.2
@@ -83,7 +83,7 @@ print(result) # False
 
 ## Strings
 
-There is a lot of cool stuff when working with strings in Python. One thing a really liked is string multiplication.
+There is a lot of cool stuff when working with strings in Python. One thing I really liked is string multiplication.
 
 ```python
 print('W' * 3) # WWW
@@ -95,12 +95,19 @@ In Javascript it will be just `Nan`. Also search in string is much simpler:
 print('World' in 'Hello World') # True
 ```
 
+Working with substrings is a pleasure. Just look at this beauty 😍!
+
+```python
+text = 'Hello World'
+print(text[0:5]) # 'Hello'
+```
+
 ## Array
 
 Arrays syntax is exactly the same. No difference here.
 
 ```python
-my_list = [1, 2.5, "A string", True] # you can put difference data types
+my_list = [1, 2.5, "A string", True] # you can put different data types
 my_list[0] # 1
 ```
 
@@ -117,7 +124,7 @@ else:
     print("Too young")
 ```
 
-One thing that I find very ugly in Python it's ternary operator.
+One thing that I find very ugly in Python is the ternary operator.
 
 ```python
 age = 18
@@ -125,7 +132,7 @@ age = 18
 print('Adult') if age >= 18 else print('Too young')
 ```
 
-I know it reads more like human langauge but I just find it confusing because condition is in the middle 😢.
+I know it reads more like human language but I just find it confusing because the condition is in the middle 😢.
 
 ```javascript
 // In js
@@ -142,14 +149,14 @@ def add(a, b):
     return a + b
 ```
 
-In Python there is also `lambda` keyword for one line functions.
+In Python there is also a `lambda` keyword for one line functions.
 
 ```python
 add = lambda a, b : a + b
 add(1,2) # 3
 ```
 
-**Note**: In Python number of arguments passed to the function should match the number of parameters defined. Otherwise it will be an error! 💥
+**Note**: In Python the number of arguments passed to the function should match the number of parameters defined. Otherwise it will be an error! 💥
 
 ## Loops
 
@@ -158,9 +165,16 @@ In Javascript we have many ways to iterate (foreach, forof, forin, for, while). 
 ```python
 for i in range(10): # a sequence from 0 to 9
   print(i)
+
+count = 0
+while count < 10: # same with while
+  print(count)
+  count += 1
 ```
 
-Note that we don't even need round parenthesis `()`! Also `range` is very handy builtin function. You can also define start and step.
+Note that we don't even need round parenthesis `()`!
+
+Very handy builtin function is `range`. It defines a sequence. You can also define start and step.
 
 ```python
 for i in range(1, 10, 2): # a sequence from 1 to 10 with step 2
@@ -177,11 +191,11 @@ for i in arr:
 
 ## None vs null
 
-Javascript has horrible mess with `null` and `undefined` values. Which are the same but not really the same. In Python you use `None` instead.
+Javascript has a horrible mess with `null` and `undefined` values. Which are the same but not really the same. In Python you use `None` instead.
 
 ## Type operators
 
-Unfortunately Javascript has very sad situation when it comes to type checking 😶. Too much stuff goes wrong. For example array is an object and null is also an object.
+Unfortunately Javascript has very sad situation when it comes to type checking 😶. Too much stuff goes wrong. For example, an array is an object and null is also an object.
 
 ```javascript
 function func() {}
@@ -216,9 +230,9 @@ print(type(None)) # NoneType
 
 ## Classes
 
-Classes in Python work similar as in Javascript. Defined by keyword `class` and class name. Constructor is called in Python `__init__`.
+Classes in Python work similarly as in Javascript. Defined by keyword `class` and class name. Constructor is called in Python `__init__`.
 
-The first argument is `self` which is a replacement of `this` to access current class instance. This is a bit weird for me because you must pass it as argument. 😕
+The first argument is `self` which is a replacement of `this` to access the current class instance. This is a bit weird for me because you must pass it as an argument. 😕
 
 ```python
 class Person:
@@ -261,9 +275,9 @@ arr1 == arr2 # True
 id(arr1) == id(arr2) # False
 ```
 
-When we compared two arrays with same items the `equality` check returned true, because they are the same. But when we do `identity` check it returns false, because each array points to a different index in memory (not the same instance).
+When we compared two arrays with the same items the `equality` check returned true, because they are the same. But when we do `identity` check it returns false, because each array points to a different index in memory (not the same instance).
 
-`map` returns an iterator that applies function to every item of iterable.
+`map()` returns an iterator that applies function to every item of iterable.
 
 ```python
 def double(element):
