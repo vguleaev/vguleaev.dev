@@ -1,11 +1,11 @@
 ---
 title: 'How to build personal blog with Astro'
 description: 'You always wanted to start a personal blog? Make website portfolio and start posting tech articles?'
-pubDate: 2023-11-04
+pubDate: 2023-10-20
 image:
   url: './covers/how-to-build-blog-with-astro.png'
   alt: 'Blog post image'
-tags: ['Astro', 'Tailwind', 'Vercel']
+tags: ['Astro', 'Tailwind', 'Vercel', 'Javascript']
 ---
 
 You always wanted to start a personal blog? Make website portfolio and start posting tech articles?

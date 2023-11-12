@@ -1,11 +1,11 @@
 ---
 title: 'Which Tailwind library to pick for React app'
 description: I know that I want to use React and Tailwind but don't want to write Javascript for components to be interactive. I had to choose some Tailwind component library!
-pubDate: 2023-10-10
+pubDate: 2023-09-17
 image:
   url: './covers/which-tailwind-library-to-pick-for-react-app.png'
   alt: 'Blog post image'
-tags: ['Tailwind', 'React', 'NextJs']
+tags: ['Tailwind', 'React', 'NextJs', 'Javascript']
 ---
 
 I enjoy creating my frontend projects with **Nextjs** and **React**. Also **Tailwind** is the second must have thing in my tech stack. I wanted to avoid reinventing over and over again the same basic components like Modals, Dropdowns, Selects, Tables and focus on building application logic.
