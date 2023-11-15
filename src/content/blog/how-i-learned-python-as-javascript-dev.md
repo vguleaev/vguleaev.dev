@@ -111,6 +111,14 @@ my_list = [1, 2.5, "A string", True] # you can put different data types
 my_list[0] # 1
 ```
 
+One cool thing you can do with arrays in Python is concatenation with just `+` sign.
+
+```python
+arr1 = [1, 2, 3]
+arr2 = [4, 5, 6]
+print(arr1 + arr2) # [1, 2, 3, 4, 5, 6]
+```
+
 ## Conditional statements
 
 If-else block in Python looks like this. Mind the `:` in the end and indentation!
