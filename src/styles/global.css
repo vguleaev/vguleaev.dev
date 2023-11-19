@@ -13,7 +13,7 @@
 }
 
 .prose > ul {
-  @apply list-disc list-outside space-y-5 pl-5 text-lg text-gray-800 dark:text-gray-200;
+  @apply list-disc list-outside space-y-2 pl-5 text-lg text-gray-800 dark:text-gray-200;
 }
 
 .prose > li {
