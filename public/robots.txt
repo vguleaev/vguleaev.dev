@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vguleaev.dev/sitemap-index.xml
