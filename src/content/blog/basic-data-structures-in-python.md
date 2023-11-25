@@ -268,6 +268,78 @@ With Circular Linked list `tail` is connected to `head` wich basically makes it 
 
 **Note:** again there is no need to implement Linked List yourself in Python 😬! Because we can also use `deque` here. Actually `deque` is represented internally as a doubly linked list. You can append and prepend items with constant time `O(1)`. For more reference about time complexity click [here](https://wiki.python.org/moin/TimeComplexity).
 
+## Tuple
+
+Tuple is a built-in data structure in Python. It is similar to a list with one main difference: they are immutable. Yes, once tuple is defined it can not be changed, it's a fixed sequence of items in particular order.
+
+```python
+book = ("The Hobbit", "John Ronald Reuel Tolkien", 1937)
+
+print(len(book))  # 3
+print(book[2])  # 1937
+print(book[1:])  # ('John Ronald Reuel Tolkien', 1937)
+print("The Hobbit" in book)  # True
+```
+
+## Dictionary
+
+Dictionary sometimes also called HashTable or HashMap, is a built-in data structure to store _key: value_ pairs. The main purpose is to store some data by its key as index and then get item by it's key.
+
+```python
+book = {
+    "title": "The Hobbit",
+    "author": "John Ronald Reuel Tolkien",
+    "year": 1937
+}
+
+print(len(book))  # 3
+print(book["year"])  # 1937
+print(book.get("author"))  # John Ronald Reuel Tolkien
+print(book.keys())  # ['title', 'author', 'year']
+print(book.values())  # ['The Hobbit', 'John Ronald Reuel Tolkien', 1937]
+```
+
+Dictionary is probably one of the most useful data structures, because of its amazing performance. You can check here for a [dict](https://wiki.python.org/moin/TimeComplexity) to understand it. Dictionary has `O(1)` time complexity for operations like: search, get, set, delete.
+
+To iterate over `dict` we can call `items()` method. It returns a tuple of `(key,value)` on every iteration. 🧐
+
+```python
+for key, value in book.items():
+    print(key, value) # title The Hobbit, author John Ronald Reuel Tolkien, year 1937
+```
+
+## Set
+
+Set is a built-in data structure in Python. It's a mutable data structure similar to list, but it does not allow **duplicate** values. It is often used to check value membership and eliminate duplicate items.
+
+```python
+fruits = {'apple', 'orange', 'pear', 'banana'}
+fruits.add('pineapple')  # adds pineapple
+fruits.discard('pear')  # removes pear
+print('pear' in fruits)  # False
+```
+
+**Note:** be careful when you define empty `set`! If you define it with empty curly braces `{}` it will be a dictionary. If you need to initialism and empty set then
+call it's initializer `set()`.
+
+```python
+empty_dict = {} # empty dict
+empty_set = set() # empty set
+```
+
+Sets in Python come form math, specifically from Set Theory 🤓. If you familiar with this topic, then you know about set operations: **union, intersection, and difference.**
+
+Let me give you some examples:
+
+```python
+set_A = {1, 2, 3}
+set_B = {2, 4, 5}
+
+print(set_A | set_B)  # Union { 1, 2, 3, 4, 5 }
+print(set_A & set_B)  # Intersection { 2 }
+print(set_A - set_B)  # Difference { 1, 3 }
+```
+
 ## That's it
 
 Thank you for reading, I hope it was interesting and not very complicated 😄!
