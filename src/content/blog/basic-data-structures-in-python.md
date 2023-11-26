@@ -319,7 +319,7 @@ fruits.discard('pear')  # removes pear
 print('pear' in fruits)  # False
 ```
 
-**Note:** be careful when you define empty `set`! If you define it with empty curly braces `{}` it will be a dictionary. If you need to initialism and empty set then
+**Note:** be careful when you define empty `set`! If you define it with empty curly braces `{}` it will be a dictionary. If you need to initialize and empty set then
 call it's initializer `set()`.
 
 ```python

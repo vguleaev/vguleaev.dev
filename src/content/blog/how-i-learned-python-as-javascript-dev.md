@@ -240,7 +240,7 @@ print(type(None)) # NoneType
 
 Classes in Python work similarly as in Javascript. Defined by keyword `class` and class name. Constructor is called in Python `__init__`.
 
-The first argument is `self` which is a replacement of `this` to access the current class instance. This is a bit weird for me because you must pass it as an argument. 😕
+The first argument is `self` which is a replacement of `this` to access the current class instance. This is a bit weird for me because you must define it as an argument. 😕
 
 ```python
 class Person:
@@ -257,6 +257,28 @@ print(person.get_full_name()) # John Doe
 ```
 
 Double underscore in the beginning of a class property name is needed to make property private. In Python it will give you an error if you try to access private fields.
+
+**Note**: If you define a variable outside of constructor, it becomes a `class variable` and it's shared across all class instances!
+
+```python
+class Person:
+    country = 'USA'  # class variable
+
+    def __init__(self, name):
+        self.name = name  # instance variable
+
+
+person1 = Person('John Doe')
+person2 = Person('Jane Doe')
+
+Person.country = 'Canada' # change class variable
+
+print(person1.name)  # John Doe
+print(person1.country)  # Canada
+
+print(person2.name)  # Jane Doe
+print(person2.country)  # Canada
+```
 
 ## Builtin functions
 
