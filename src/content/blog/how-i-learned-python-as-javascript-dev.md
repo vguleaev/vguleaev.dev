@@ -164,7 +164,7 @@ add = lambda a, b : a + b
 add(1,2) # 3
 ```
 
-**Note**: In Python the number of arguments passed to the function should match the number of parameters defined. Otherwise it will be an error! 💥
+> In Python the number of arguments passed to the function should match the number of parameters defined. Otherwise it will be an error! 💥
 
 ## Loops
 
@@ -258,7 +258,7 @@ print(person.get_full_name()) # John Doe
 
 Double underscore in the beginning of a class property name is needed to make property private. In Python it will give you an error if you try to access private fields.
 
-**Note**: If you define a variable outside of constructor, it becomes a `class variable` and it's shared across all class instances!
+> If you define a variable outside of constructor, it becomes a `class variable` and it's shared across all class instances!
 
 ```python
 class Person:

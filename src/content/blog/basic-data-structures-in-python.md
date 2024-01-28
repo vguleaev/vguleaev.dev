@@ -110,7 +110,7 @@ print(q.get_items()) # ['b', 'c']
 
 Main difference between stack and queue is that removing element is done from the end or the beging. Here it is achieved by using `pop(0)` which removes element at position zero, so beginning of the queue.
 
-**Note:** it is very important to say that there is no need to implement stack and queue by yourself 😃. Actually they exist in Python in a form of another data structure called [deque](https://docs.python.org/3/library/collections.html#collections.deque).
+> It is very important to say that there is no need to implement stack and queue by yourself 😃. Actually they exist in Python in a form of another data structure called [deque](https://docs.python.org/3/library/collections.html#collections.deque).
 
 ## Deque
 
@@ -266,7 +266,7 @@ Doubly Linked list is implemented in a very similar way just every node has also
 
 With Circular Linked list `tail` is connected to `head` wich basically makes it connected as a circle. This gives us ability to traverse list in rounds, so there is no end of the list.
 
-**Note:** again there is no need to implement Linked List yourself in Python 😬! Because we can also use `deque` here. Actually `deque` is represented internally as a doubly linked list. You can append and prepend items with constant time `O(1)`. For more reference about time complexity click [here](https://wiki.python.org/moin/TimeComplexity).
+> Again there is no need to implement Linked List yourself in Python 😬! Because we can also use `deque` here. Actually `deque` is represented internally as a doubly linked list. You can append and prepend items with constant time `O(1)`. For more reference about time complexity click [here](https://wiki.python.org/moin/TimeComplexity).
 
 ## Tuple
 
@@ -319,8 +319,8 @@ fruits.discard('pear')  # removes pear
 print('pear' in fruits)  # False
 ```
 
-**Note:** be careful when you define empty `set`! If you define it with empty curly braces `{}` it will be a dictionary. If you need to initialize and empty set then
-call it's initializer `set()`.
+> Be careful when you define empty `set`! If you define it with empty curly braces `{}` it will be a dictionary. If you need to initialize an empty set then
+> call it's initializer `set()`.
 
 ```python
 empty_dict = {} # empty dict

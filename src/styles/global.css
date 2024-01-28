@@ -1,4 +1,3 @@
-
 /* Styles for the markdown content. */
 .prose > p {
   @apply text-lg text-gray-800 dark:text-gray-200 my-5;
@@ -12,12 +11,30 @@
   @apply text-2xl font-bold md:text-3xl dark:text-white;
 }
 
+.prose > blockquote {
+  @apply border-l-4 border-gray-200 dark:border-gray-800 pl-4 my-5;
+}
+
+.prose > blockquote > p > a {
+  @apply text-blue-600 decoration-2 hover:underline font-medium;
+}
+
+.prose > blockquote > p > code {
+	padding: 3px 5px;
+  @apply bg-gray-200 dark:bg-gray-800 text-sm text-gray-800 dark:text-gray-200 rounded-md;
+}
+
 .prose > ul {
   @apply list-disc list-outside space-y-2 pl-5 text-lg text-gray-800 dark:text-gray-200;
 }
 
 .prose > li {
   @apply pl-2;
+}
+
+.prose > uL > li > code {
+	padding: 3px 5px;
+  @apply bg-gray-200 dark:bg-gray-800 text-sm text-gray-800 dark:text-gray-200 rounded-md;
 }
 
 .prose > p > img {
