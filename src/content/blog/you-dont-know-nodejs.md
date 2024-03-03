@@ -303,13 +303,145 @@ This probably looks familiar to you if you used before any Javascript backend fr
 
 **res** argument represents http response and is instance of a class `http.ServerResponse` which is a subclass of `WritableStream`.
 
-We can send response headers by using `res.writeHead()` function. This means our http server suppose to return HTML content back.
+We can send status code and response headers by using `res.writeHead()` function. This means our http server suppose to return JSON content back.
 
 ```javascript
-res.writeHead(200, { 'Content-Type': 'text/html' });
+res.writeHead(200, { 'Content-Type': 'application/json' });
+```
+
+Let's create more real world endpoint for our server. We will implement GET `/hello` endpoint and return some JSON data.
+
+For this we need to check for request's url and method, set proper header, create a response object and write it to response stream as a string.
+
+```javascript
+const server = http
+  .createServer((req, res) => {
+    if (req.url === '/hello' && req.method === 'GET') {
+      const response = {
+        message: 'Hello, World!',
+      };
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.write(JSON.stringify(response));
+      res.end();
+    }
+  })
+  .listen(8080);
+```
+
+> If you try to access any other endpoint, our server will hang. This is because we only call `res.end()` for `/hello` GET endpoint.
+
+We can go further and have a look at example of reading POST request body. Let's implement POST `/hello` endpoint that simply reads request body and logs it to console.
+Even though it sounds very simple, but in reality it requires quite some operations.
+
+We know that request is `EventEmitter` which emits event called **data** with chunks of request body. We have to make sure we read it fully and for this we need another event called **end**. Then we can simply concatenate chunks of data until **end** event is fired to get full request body.
+
+```javascript
+const server = http
+  .createServer((req, res) => {
+    if (req.url === '/hello' && req.method === 'POST') {
+      let body = '';
+
+      req.on('data', (chunk) => {
+        body += chunk;
+      });
+
+      req.on('end', () => {
+        console.log(body);
+        res.end();
+      });
+    }
+  })
+  .listen(8080);
+```
+
+## https
+
+The `https` module in Node.js is needed to transfer data over HTTP TLS/SSL protocol, which is the secure HTTP protocol. Yes, https in Node.js is implemented in a separate module.
+
+This time we will not create a server, but instead make a http request. To make http request in Node.js you need to use method `https.request()` which returns back request object and accepts a callback function to process the response.
+
+Here I will simply make a request to www.google.com and print to console HTML content of the google search page.
+
+```javascript
+import https from 'https';
+
+const options = {
+  hostname: 'www.google.com',
+  port: 443,
+  path: '/',
+  method: 'GET',
+};
+
+const req = https.request(options, (res) => {
+  let data = '';
+
+  res.on('data', (chunk) => {
+    data += chunk;
+  });
+
+  res.on('end', async () => {
+    console.log(data);
+  });
+});
+
+req.on('error', (error) => {
+  console.error(error);
+});
+
+req.end();
+```
+
+> Port 443 is the standard port for HTTPS.
+
+The `options` object is used to specify details about the HTTP request, such as the hostname, port, path, and method. In our response callback function you can notice a similar pattern we already used before. Again we get a response stream and listen to **data** event until stream is finished. We can also handle error cases by adding a callback function for **error** event.
+
+## net
+
+The `net` module in Node.js provides functionality to create **TCP or IPC** servers and clients.
+
+How different is TCP server from HTTP? Well you probably know that HTTP utilizes TCP to transport data. TCP is transport layer protocol, while HTTP is application layer protocol. You can say that HTTP is more high level protocol which uses TCP under the hood.
+
+Main difference is that TCP is stateful and connection-oriented, meaning a connection between client and server is established before data can be sent.
+
+HTTP is generally considered stateless because, after the client has established a connection with a server, sent a request, and received a response, the connection is immediately dropped.
+
+Enough theory.. 😬 Let's create a basic TCP server and send some data to it.
+
+```javascript
+import net from 'net';
+
+const server = net.createServer((socket) => {
+  socket.on('data', (data) => {
+    console.log(data.toString());
+  });
+
+  socket.on('end', () => {
+    console.log('Client disconnected');
+  });
+});
+
+server.listen(3000, () => {
+  console.log('Server listening on port 3000');
+});
+```
+
+To test this server you need to use something that can make TCP connections. Common terminal utilities for this are `netcat` or `telnet`. This is the command to connect using netcat:
+
+```
+netcat localhost 3000
 ```
 
 ## worker_threads
+
+It's time to talk about controversial topic in Node.js which is **multithreading** 😄!
+
+The `worker_threads` module allows you to execute Javascript code in parallel using threads.
+
+## child_process
+
+TBD
+
+## cluster
 
 TBD
 
