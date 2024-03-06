@@ -8,7 +8,7 @@ image:
 tags: ['Javascript', 'Node.js']
 ---
 
-_Name of a post was inspired by a popular Javascript book called "You don't know JS"_ .
+_Name of the post was inspired by a popular Javascript book called "You don't know JS"_ .
 
 Nodejs is more than you think, I will try to prove this point and tell about modules of Nodejs that you probably didn't know about.
 
@@ -168,7 +168,7 @@ writeStream.end();
 
 This should create a file called `example.txt` in current directory with content `hello world`. We can call `write()` function multiple time to push chunks of data to the writing stream and then finish stream by calling `end()` function.
 
-Classic examples of writable streams include: `http.request`, `fs.createWriteStream`, `zlib.createGzip()`, `process.stdout`.
+Classic examples of writable streams include: `http.ServerResponse`, `fs.createWriteStream`, `zlib.createGzip()`, `process.stdout`.
 
 ## zlib
 
@@ -442,17 +442,71 @@ To test this server you need to use something that can make TCP connections. Com
 Hello from TCP server!
 ```
 
-After connection is established you will see message `Hello from TCP server!` in terminal and then you can type any text and press enter to send data. You should be able to see data received and logged to the console on our server.
+After connection is established you will see message `Hello from TCP server!` in terminal and then you can type any text and press enter to send data. You should be able to see data received and logged to the console on our server. Closing connection on client should result in seeing `'Client disconnected'` log on server.
+
+## child_process
+
+The `child_process` module provides functionality to create subprocesses in Node.js. Every Node.js application starts as a single process in your operating system and runs on a single thread (main thread).
+
+What is a thread? A thread is the subset of a process and is also known as the lightweight process. A process can have multiple threads.
+
+`child_process` module is used to spawn new processes, which can be called **child processes**. This module contains four main functions:
+
+- `spawn()`
+- `fork()`
+- `exec()`
+- `execFile()`
+
+Each of these methods returns [ChildProcess](https://nodejs.org/api/child_process.html#class-childprocess) instance which implements `EventEmitter` API.
+
+These methods create processes asynchronously, but also have a synchronous versions `execSync()`, `execFileSync()`, `spawnSync()`. They need to be used with caution, because they will block the Node.js event loop!
+
+`spawn()` and `exec()` are used to execute **external** process.
+
+`spawn()` is suitable for creating long-running processes or processes with a heavy output. Child process returned by it has `stdout` and `stderr` streams to return command output or errors.
+
+```javascript
+import { spawn } from 'child_process';
+
+const ls = spawn('ls', ['-la']);
+
+ls.stdout.on('data', (data) => {
+  console.log(`stdout: ${data}`);
+});
+
+ls.stderr.on('data', (data) => {
+  console.error(`stderr: ${data}`);
+});
+
+ls.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
+});
+```
+
+`exec()` is designed to run smaller output processes and has a limit of **1 MB** of output data. Child processes returned by it has `stdout` and `stderr` output as `String` with default encoding UTF-8. You can set encoding to `buffer` in options, then `Buffer` object will be returned as output.
+
+```javascript
+import util from 'util';
+import { exec } from 'child_process';
+const execAsync = util.promisify(exec);
+
+const { stdout, stderr } = await execAsync('ls -la');
+
+console.log('stdout:', stdout);
+console.error('stderr:', stderr);
+```
+
+`exec()` by default spawns a shell, similar as you running commands in terminal, on the other hand `spawn()` is not doing it by default.
+
+🛑 Warning: `exec()` and `spawn()` are NOT designed for creating Node.js processes!
+
+For this case we should use `fork()`, because it allows **IPC communication** between parent and child processes by sending messages.
 
 ## worker_threads
 
 It's time to talk about controversial topic in Node.js which is **multithreading** 😄!
 
 The `worker_threads` module allows you to execute Javascript code in parallel using threads.
-
-## child_process
-
-TBD
 
 ## cluster
 
