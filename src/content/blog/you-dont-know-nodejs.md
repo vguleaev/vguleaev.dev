@@ -411,11 +411,17 @@ Enough theory.. 😬 Let's create a basic TCP server and send some data to it.
 import net from 'net';
 
 const server = net.createServer((socket) => {
+  socket.write('Hello from TCP server!');
+
   socket.on('data', (data) => {
     console.log(data.toString());
   });
 
   socket.on('end', () => {
+    console.log('Data transmission finished');
+  });
+
+  socket.on('close', () => {
     console.log('Client disconnected');
   });
 });
@@ -425,11 +431,18 @@ server.listen(3000, () => {
 });
 ```
 
-To test this server you need to use something that can make TCP connections. Common terminal utilities for this are `netcat` or `telnet`. This is the command to connect using netcat:
+Here I create new TCP server using `net.createServer()` function. The callback function is called when client connects to the server, this creates an object called `socket` which represents the client connection. `Socket` object is an `EventEmitter` and has already familiar to us events for reading data sent to our server. These events are **data** and **end**. We can read data with the same pattern, reading chunk of data which are of type `Buffer` or `String`.
+
+To respond client you can simply call function `socket.write()`. `Socket` object is also a `WritableStream`.
+
+To test this server you need to use something that can make TCP connections. Common terminal utilities for this are `netcat` or `telnet`, you maybe need to install them. This is the command to connect using **netcat**. You should be able to see welcome message right after connection.
 
 ```
-netcat localhost 3000
+> netcat localhost 3000
+Hello from TCP server!
 ```
+
+After connection is established you will see message `Hello from TCP server!` in terminal and then you can type any text and press enter to send data. You should be able to see data received and logged to the console on our server.
 
 ## worker_threads
 
