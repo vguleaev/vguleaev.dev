@@ -67,7 +67,7 @@ eventEmitter.on('event', () => console.log(3));
 eventEmitter.emit('event'); // 1 2 3
 ```
 
-You can also remove listeners by calling functions like `removeListener()` and `removeAllListener()`.
+You can also remove listeners by calling functions like `removeListener()` and `removeAllListeners()`.
 
 ## Buffer
 
@@ -196,7 +196,7 @@ pipeline(source, gzip, destination, (err) => {
 });
 ```
 
-As I mentioned before `zlib` module mostly works with streams. Function `createGzip()` returns a **TransformSteam** (_or ReadWriteStream_).
+As I mentioned before `zlib` module mostly works with streams. Function `createGzip()` returns a **TransformStream** (_or ReadWriteStream_).
 
 This stream is basically a transformer between input and output data. Then we need `pipeline()` function from `stream` module to be able to create a chain of streams. We can pass to this function our read, transform and write streams. Of course order of arguments is important here 😄!
 
@@ -431,7 +431,7 @@ server.listen(3000, () => {
 });
 ```
 
-Here I create new TCP server using `net.createServer()` function. The callback function is called when client connects to the server, this creates an object called `socket` which represents the client connection. `Socket` object is an `EventEmitter` and has already familiar to us events for reading data sent to our server. These events are **data** and **end**. We can read data with the same pattern, reading chunk of data which are of type `Buffer` or `String`.
+Here I create new TCP server using `net.createServer()` function. The callback function is called when client connects to the server, this creates an object called `socket` which represents the client connection. `Socket` object implements `EventEmitter` API and has familiar to us events for reading data sent to our server. These events are **data** and **end**. We can read data with the same pattern, reading chunk of data which are of type `Buffer` or `String`.
 
 To respond client you can simply call function `socket.write()`. `Socket` object is also a `WritableStream`.
 
@@ -459,7 +459,7 @@ What is a thread? A thread is the subset of a process and is also known as the l
 
 Each of these methods returns [ChildProcess](https://nodejs.org/api/child_process.html#class-childprocess) instance which implements `EventEmitter` API.
 
-These methods create processes asynchronously, but also have a synchronous versions `execSync()`, `execFileSync()`, `spawnSync()`. They need to be used with caution, because they will block the Node.js event loop!
+These methods create processes asynchronously, but also have a synchronous versions: `execSync()`, `execFileSync()`, `spawnSync()`. They need to be used with caution, because they will block the Node.js event loop!
 
 `spawn()` and `exec()` are used to execute **external** process.
 
@@ -468,22 +468,54 @@ These methods create processes asynchronously, but also have a synchronous versi
 ```javascript
 import { spawn } from 'child_process';
 
-const ls = spawn('ls', ['-la']);
+const child = spawn('ls', ['-la']);
 
-ls.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
+child.stdout.on('data', (data) => {
+  console.log(`output: ${data}`);
 });
 
-ls.stderr.on('data', (data) => {
-  console.error(`stderr: ${data}`);
+child.stderr.on('data', (data) => {
+  console.error(`error: ${data}`);
 });
 
-ls.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
+child.on('close', (code) => {
+  console.log(`child process exited with code: ${code}`);
 });
 ```
 
-`exec()` is designed to run smaller output processes and has a limit of **1 MB** of output data. Child processes returned by it has `stdout` and `stderr` output as `String` with default encoding UTF-8. You can set encoding to `buffer` in options, then `Buffer` object will be returned as output.
+In this example I use `spawn` to execute a simple `ls -la` command to show files in current directory.
+
+I call `spawn` method and pass command as string and arguments in array of strings. This returns a `ChildProcess` instance, which has `stdout` and `stderr` properties, both of type `ReadableStream`. Streams implement `EventEmitter` API so we can listen to `data` events to see output of command or errors.
+
+How different is `exec`?
+
+`exec()` is designed to run smaller output processes and has a limit of **1 MB** of output data. Child processes returned by it again has `stdout` and `stderr` properties, but this time of type `String`!
+
+Output default encoding is UTF-8. You can set encoding to `buffer` in options, then `Buffer` object will be returned as output.
+
+```javascript
+import { exec } from 'child_process';
+
+const child = exec('ls -la', (error, stdout, stderr) => {
+  if (error) {
+    console.error(`process failed to start: ${error.message}`);
+    return;
+  }
+  if (stderr) {
+    console.error(`error: ${stderr}`);
+    return;
+  }
+  console.log(`output: ${stdout}`);
+});
+```
+
+> `exec()` by default spawns a shell, similar as you running commands in terminal, on the other hand `spawn()` is not doing it by default.
+
+In this example I use `exec` to execute a simple `ls -la` command.
+
+I call `exec` method and pass whole command as one string and a callback function which will run when process is finished. Callback function has three arguments: error, stdout and stderr to read process output and errors.
+
+**Bonus**: because `exec` is not using streams but returns output at once within a callback function, we can turned it into promise based function using utility from Node.js `util.promisify()`. This makes it much more readable, have a look:
 
 ```javascript
 import util from 'util';
@@ -491,26 +523,166 @@ import { exec } from 'child_process';
 const execAsync = util.promisify(exec);
 
 const { stdout, stderr } = await execAsync('ls -la');
-
 console.log('stdout:', stdout);
 console.error('stderr:', stderr);
 ```
 
-`exec()` by default spawns a shell, similar as you running commands in terminal, on the other hand `spawn()` is not doing it by default.
+<!-- **Conclusion**: When choosing between `exec` and `spawn`, always chose `exec` when you expect smaller output or a CLI command, otherwise use `spawn`.  -->
 
 🛑 Warning: `exec()` and `spawn()` are NOT designed for creating Node.js processes!
 
 For this case we should use `fork()`, because it allows **IPC communication** between parent and child processes by sending messages.
+
+`fork()` is used to spin up a whole new Node.js process. It will have its own Node runtime with its own memory, V8 instance and its own event loop! Of crouse this should not be cheap in terms of memory usage and also not fast, because of context switching 🐌!
+
+And don't get confused with meaning of word _fork_, it does NOT clone current process!
+
+Let's assume we have two js files: `parent.js` and `child.js`. We will start child.js using `fork()` function. For simplicity we will send a value to child process and let child double the value, then send it back to parent.
+
+```javascript
+// parent.js
+import { fork } from 'child_process';
+
+const child = fork('./child.js');
+
+child.on('message', (msg) => {
+  console.log('Message from child: ', msg);
+});
+
+child.send({ value: 2 });
+
+// child.js
+process.on('message', (msg) => {
+  console.log('Message from parent:', msg);
+
+  process.send({ result: msg.value * 2 });
+  process.exit();
+});
+```
+
+This is the output of running this script.
+
+```
+> node parent.js
+Message from parent: { value: 2 }
+Message from child:  { result: 4 }
+```
+
+In this example I spawned completely new Node.js subprocess by executing `child.js` script. For this I called `fork()` function and passed path to a another js file. This again returns instance of `ChildProcess` but this time also establish a communication channel.
+
+Yes, it must be a separate file, which will start a new Node.js program in **isolation**. This means sharing objects from main process memory is **not possible**!
+
+The only way to communicate between parent and child is by IPC (inter-process communication) channel, meaning sending messages. Luckily they are serializable, so we dont need to parse strings (e.g I send number in this example and I dont need to cast it).
+
+Parent process can send data to child by calling `child.send()` function and read messages by registering a callback to `child.on('message')` event.
+
+Child process can receive message from parent by listening to `process.on('message')` event and respond to parent with `process.send()`.
+
+> Parent program will not terminate until all spawned subprocesses are exited. So calling process.exit() is very important inside child. Alternatively parent can kill a child process by calling child.kill().
+
+What is the use case of fork?
+
+Well, parallel programming is the answer. It gives the ability to execute multiple Node.js applications at the same time, so in parallel. This can be useful when dealing with CPU heavy computation tasks like processing graphics, mathematical calculations, and video or image compression.
+
+One common technique to achieve performance is splitting heavy tasks into smaller parts and let multiple cores to work on them at the same time.
+
+Let's have a look at this example:
+
+```javascript
+console.time('time');
+
+let counter = 0;
+
+for (let i = 0; i < 3_000_000_000; i++) {
+  counter = counter + 1;
+}
+
+console.log(counter.toLocaleString());
+console.timeEnd('time');
+```
+
+This code just does 3 billion iterations and increases a counter. On my machine it takes around 2 seconds (depends on how powerful is your machine). How we can make it faster?
+
+We split the task into 3 parts and calculate same number but in parallel. Each child process will do exact 1 billion iterations.
+
+```javascript
+// child.js
+let counter = 0;
+for (let i = 0; i < 1_000_000_000; i++) {
+  counter = counter + 1;
+}
+process.send({ counter: counter });
+process.exit();
+
+// parent.js
+import { fork } from 'child_process';
+
+console.time('time');
+
+let counter = 0;
+const child1 = fork('child.js');
+const child2 = fork('child.js');
+const child3 = fork('child.js');
+
+child1.on('message', (msg) => {
+  counter += msg.counter;
+});
+child2.on('message', (msg) => {
+  counter += msg.counter;
+});
+child3.on('message', (msg) => {
+  counter += msg.counter;
+});
+
+const childrenPromises = [
+  new Promise((resolve) => child1.on('exit', resolve)),
+  new Promise((resolve) => child2.on('exit', resolve)),
+  new Promise((resolve) => child3.on('exit', resolve)),
+];
+await Promise.all(childrenPromises);
+
+console.log(counter.toLocaleString());
+console.timeEnd('time');
+```
+
+Same 3 billion iterations are completed within 600 ms 😃! So much faster, because we could run them in parallel using advantage of multiple cores.
+
+## cluster
+
+The `cluster` module of Node.js allows to spawn multiple processes that can share the **same server port** and handle incoming requests concurrently. This can help to distribute the workload of the requests and run each process on a separate CPU core making server more efficient.
+
+Under the hood the `fork()` function is used to achieve this.
+
+Why do we need this?
+
+Node.js handles perfectly I/O tasks in asynchrones way using just single process and single thread. When we build our http servers we want to them to process as much user requests as possible and be very performant. Sometimes things doesn't go so well and we have code that can block main event loop. When this happens our server is stuck and cant accept any more requests.
+
+```javascript
+const http = require('http');
+const { fork } = require('child_process');
+
+const server = http.createServer();
+
+server.on('request', (req, res) => {
+  if (req.url === '/compute') {
+    const compute = fork('compute.js');
+    compute.send('start');
+    compute.on('message', (sum) => {
+      res.end(`Sum is ${sum}`);
+    });
+  } else {
+    res.end('Ok');
+  }
+});
+
+server.listen(3000);
+```
 
 ## worker_threads
 
 It's time to talk about controversial topic in Node.js which is **multithreading** 😄!
 
 The `worker_threads` module allows you to execute Javascript code in parallel using threads.
-
-## cluster
-
-TBD
 
 ## Final
 
