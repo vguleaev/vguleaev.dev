@@ -465,6 +465,8 @@ These methods create processes asynchronously, but also have a synchronous versi
 
 `spawn()` is suitable for creating long-running processes or processes with a heavy output. Child process returned by it has `stdout` and `stderr` streams to return command output or errors.
 
+In this example I use `spawn` to execute a simple `ls -la` command to show files in current directory.
+
 ```javascript
 import { spawn } from 'child_process';
 
@@ -483,8 +485,6 @@ child.on('close', (code) => {
 });
 ```
 
-In this example I use `spawn` to execute a simple `ls -la` command to show files in current directory.
-
 I call `spawn` method and pass command as string and arguments in array of strings. This returns a `ChildProcess` instance, which has `stdout` and `stderr` properties, both of type `ReadableStream`. Streams implement `EventEmitter` API so we can listen to `data` events to see output of command or errors.
 
 How different is `exec`?
@@ -492,6 +492,8 @@ How different is `exec`?
 `exec()` is designed to run smaller output processes and has a limit of **1 MB** of output data. Child processes returned by it again has `stdout` and `stderr` properties, but this time of type `String`!
 
 Output default encoding is UTF-8. You can set encoding to `buffer` in options, then `Buffer` object will be returned as output.
+
+In this example I use `exec` to execute a simple `ls -la` command.
 
 ```javascript
 import { exec } from 'child_process';
@@ -511,8 +513,6 @@ const child = exec('ls -la', (error, stdout, stderr) => {
 
 > `exec()` by default spawns a shell, similar as you running commands in terminal, on the other hand `spawn()` is not doing it by default.
 
-In this example I use `exec` to execute a simple `ls -la` command.
-
 I call `exec` method and pass whole command as one string and a callback function which will run when process is finished. Callback function has three arguments: error, stdout and stderr to read process output and errors.
 
 **Bonus**: because `exec` is not using streams but returns output at once within a callback function, we can turned it into promise based function using utility from Node.js `util.promisify()`. This makes it much more readable, have a look:
@@ -527,9 +527,7 @@ console.log('stdout:', stdout);
 console.error('stderr:', stderr);
 ```
 
-<!-- **Conclusion**: When choosing between `exec` and `spawn`, always chose `exec` when you expect smaller output or a CLI command, otherwise use `spawn`.  -->
-
-🛑 Warning: `exec()` and `spawn()` are NOT designed for creating Node.js processes!
+🛑 Warning: `exec()` and `spawn()` are NOT designed for spawning Node.js processes!
 
 For this case we should use `fork()`, because it allows **IPC communication** between parent and child processes by sending messages.
 
@@ -568,7 +566,7 @@ Message from parent: { value: 2 }
 Message from child:  { result: 4 }
 ```
 
-In this example I spawned completely new Node.js subprocess by executing `child.js` script. For this I called `fork()` function and passed path to a another js file. This again returns instance of `ChildProcess` but this time also establish a communication channel.
+In this example I spawned completely new Node.js subprocess by executing `child.js` script. For this I called `fork()` function and passed path to a another js file. This again returns instance of `ChildProcess` but this time also establishes communication channel.
 
 Yes, it must be a separate file, which will start a new Node.js program in **isolation**. This means sharing objects from main process memory is **not possible**!
 
@@ -601,7 +599,7 @@ console.log(counter.toLocaleString());
 console.timeEnd('time');
 ```
 
-This code just does 3 billion iterations and increases a counter. On my machine it takes around 2 seconds (depends on how powerful is your machine). How we can make it faster?
+This code just does 3 billion iterations and increases a counter. On my machine it takes around 3 seconds (depends on how powerful is your machine). How we can make it faster?
 
 We split the task into 3 parts and calculate same number but in parallel. Each child process will do exact 1 billion iterations.
 
@@ -647,36 +645,127 @@ console.timeEnd('time');
 
 Same 3 billion iterations are completed within 600 ms 😃! So much faster, because we could run them in parallel using advantage of multiple cores.
 
+**Conclusion**: When choosing between `exec` and `spawn`, always chose `exec` when you expect smaller output or a CLI command, otherwise use `spawn`.
+Use `fork` when you need to create a new Nodejs process in isolation or to achieve parallelism.
+
 ## cluster
 
 The `cluster` module of Node.js allows to spawn multiple processes that can share the **same server port** and handle incoming requests concurrently. This can help to distribute the workload of the requests and run each process on a separate CPU core making server more efficient.
-
-Under the hood the `fork()` function is used to achieve this.
 
 Why do we need this?
 
 Node.js handles perfectly I/O tasks in asynchrones way using just single process and single thread. When we build our http servers we want to them to process as much user requests as possible and be very performant. Sometimes things doesn't go so well and we have code that can block main event loop. When this happens our server is stuck and cant accept any more requests.
 
+Here we have a classic example of http server with two endpoints one is fast and another is slow.
+To make endpoint slow we will use loop with 3 billion iterations.
+
 ```javascript
-const http = require('http');
-const { fork } = require('child_process');
+import http from 'http';
 
-const server = http.createServer();
+const server = http
+  .createServer((req, res) => {
+    if (req.url === '/slow') {
+      let counter = 0;
+      for (let i = 0; i < 3_000_000_000; i++) {
+        counter = counter + 1;
+      }
+      res.end(`slow response: ${counter}`);
+    }
 
-server.on('request', (req, res) => {
-  if (req.url === '/compute') {
-    const compute = fork('compute.js');
-    compute.send('start');
-    compute.on('message', (sum) => {
-      res.end(`Sum is ${sum}`);
-    });
-  } else {
-    res.end('Ok');
-  }
-});
-
-server.listen(3000);
+    if (req.url === '/fast') {
+      res.end('fast response');
+    }
+  })
+  .listen(3000);
 ```
+
+Slow endpoint request time is around 3 seconds and fast is less than 20 ms. ⌛
+
+If you hit `/slow` endpoint first and then immediately hit `/fast`, you can notice that `/fast` is also hanging. This is because, slow endpoint **blocks Event Loop** and makes CPU busy, meaning http server cant handle any requests.
+
+To avoid this we have two options:
+
+- make sure we never do computational heavy tasks
+- use `cluster` module
+
+Cluster module allows us to create one primary node and as much workers nodes as much you have cores available for parallelism. Cluster also acts like a load balancer and distributes requests across the workers in a round-robin fashion by default. All the workers are basically http servers which share the same port.
+
+```javascript
+import cluster from 'node:cluster';
+import http from 'node:http';
+import { availableParallelism } from 'node:os';
+import process from 'node:process';
+
+const numCPUs = availableParallelism();
+
+if (cluster.isPrimary) {
+  console.log(`Primary ${process.pid} is running`);
+
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`worker ${worker.process.pid} died`);
+  });
+} else {
+  http
+    .createServer((req, res) => {
+      if (req.url === '/slow') {
+        let counter = 0;
+        for (let i = 0; i < 3_000_000_000; i++) {
+          counter = counter + 1;
+        }
+        res.end(`slow response: ${counter}`);
+      }
+
+      if (req.url === '/fast') {
+        res.end('fast response');
+      }
+    })
+    .listen(8000);
+
+  console.log(`Worker ${process.pid} started`);
+}
+```
+
+Here I recreated the same example with `/slow` and `/fast` endpoints using cluster. Now if you hit `/slow` endpoint only event loop of one worker will be blocked and others will be available to serve requests.
+
+This example starts as single process, which is identified as **primary** and creates several child processes (can be called workers), one per each available CPU core. Number of workers can be different for you, depends on how many core your machine has.
+
+Worker is basically an instance of Node.js created by `child_process.fork()` method. Each worker runs code from `else` block which simply starts an http server. As a result we have multiple http servers that can serve requests in parallel sharing the same port.
+
+> Workers can share any TCP connection, here we create an HTTP server.
+
+If you run this script you should see similar output:
+
+```
+> node server.js
+Primary 3596 is running
+Worker 4324 started
+Worker 4520 started
+Worker 6056 started
+Worker 5644 started
+```
+
+Workers are instances of class [Worker](https://nodejs.org/api/cluster.html#class-worker), because they are child processes they can talk to main process via IPC. Workers can send messages to parent in the same way as processes created by `fork()` method. Cluster has array of workers which can be accessed by id.
+
+```javascript
+//...
+for (const id in cluster.workers) {
+  cluster.workers[id].on('message', ({ msg }) => {
+    console.log('worker sent:', msg);
+  });
+}
+
+// inside worker code
+if (req.url === '/fast') {
+  process.send({ msg: `processing on node ${process.pid}` });
+  res.end('fast response');
+}
+```
+
+In modern architecture this approach is not popular, moreover it's limited by capacity of the machine you are using. When you want to scale **horizontally** its more common to add more nodes instead of using multiple core of one node.
 
 ## worker_threads
 
@@ -686,6 +775,6 @@ The `worker_threads` module allows you to execute Javascript code in parallel us
 
 ## Final
 
-For now we can wrap things up there! You can read more info in [official documentation](https://nodejs.org/docs/latest/api/).
+Huh, it was a long journey! You can find more info in [official documentation](https://nodejs.org/docs/latest/api/).
 
 I hope you can feel now more confident using unpopular features of Node.js 😄!
