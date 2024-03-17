@@ -650,19 +650,22 @@ Use `fork` when you need to create a new Nodejs process in isolation or to achie
 
 ## cluster
 
-The `cluster` module of Node.js allows to spawn multiple processes that can share the **same server port** and handle incoming requests concurrently. This can help to distribute the workload of the requests and run each process on a separate CPU core making server more efficient.
+The `cluster` module of Node.js allows to spawn multiple processes which share the **same server port** and handle incoming requests concurrently. This can help to distribute the workload of the requests and run each process on a separate CPU core making server more efficient.
 
 Why do we need this?
 
 Node.js handles perfectly I/O tasks in asynchrones way using just single process and single thread. When we build our http servers we want to them to process as much user requests as possible and be very performant. Sometimes things doesn't go so well and we have code that can block main event loop. When this happens our server is stuck and cant accept any more requests.
 
-Here we have a classic example of http server with two endpoints one is fast and another is slow.
-To make endpoint slow we will use loop with 3 billion iterations.
+![Alt text](../../images/posts/nodejs-cluster-architecture.png)
+
+To demonstrate this, create a file `index.js` and start there http server with two endpoints one is fast and another is slow.
+To make endpoint slow we will use loop with 3 billion iterations to imitate CPU heavy task.
 
 ```javascript
+// index.js
 import http from 'http';
 
-const server = http
+http
   .createServer((req, res) => {
     if (req.url === '/slow') {
       let counter = 0;
@@ -677,6 +680,8 @@ const server = http
     }
   })
   .listen(3000);
+
+console.log(`Process ${process.pid} listening on port 3000`);
 ```
 
 Slow endpoint request time is around 3 seconds and fast is less than 20 ms. ⌛
@@ -688,90 +693,160 @@ To avoid this we have two options:
 - make sure we never do computational heavy tasks
 - use `cluster` module
 
-Cluster module allows us to create one primary node and as much workers nodes as much you have cores available for parallelism. Cluster also acts like a load balancer and distributes requests across the workers in a round-robin fashion by default. All the workers are basically http servers which share the same port.
+Cluster module allows us to create one primary node and as much workers nodes as you have cores available for parallelism. Cluster also acts like a load balancer and distributes requests across the workers in a round-robin fashion by default. All the workers are basically http servers which share the same port.
+
+Now create another file `primary.js` with the following code:
 
 ```javascript
-import cluster from 'node:cluster';
-import http from 'node:http';
-import { availableParallelism } from 'node:os';
-import process from 'node:process';
+// primary.js
+import cluster from 'cluster';
+import os from 'os';
 
-const numCPUs = availableParallelism();
+const cpuCount = os.cpus().length;
 
-if (cluster.isPrimary) {
-  console.log(`Primary ${process.pid} is running`);
+console.log(`The total number of CPUs is ${cpuCount}`);
+console.log(`Primary pid=${process.pid}`);
 
-  for (let i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
+cluster.setupPrimary({
+  exec: './index.js',
+});
 
-  cluster.on('exit', (worker, code, signal) => {
-    console.log(`worker ${worker.process.pid} died`);
-  });
-} else {
-  http
-    .createServer((req, res) => {
-      if (req.url === '/slow') {
-        let counter = 0;
-        for (let i = 0; i < 3_000_000_000; i++) {
-          counter = counter + 1;
-        }
-        res.end(`slow response: ${counter}`);
-      }
-
-      if (req.url === '/fast') {
-        res.end('fast response');
-      }
-    })
-    .listen(8000);
-
-  console.log(`Worker ${process.pid} started`);
+for (let i = 0; i < cpuCount; i++) {
+  cluster.fork();
 }
+
+cluster.on('exit', (worker, code, signal) => {
+  console.log(`worker ${worker.process.pid} has been killed`);
+  console.log('Starting another worker');
+  cluster.fork();
+});
 ```
 
-Here I recreated the same example with `/slow` and `/fast` endpoints using cluster. Now if you hit `/slow` endpoint only event loop of one worker will be blocked and others will be available to serve requests.
+Here we start the same `index.js` file with `/slow` and `/fast` endpoints in a cluster. Now if you hit `/slow` endpoint only event loop of one worker will be blocked and others will be available to serve requests.
 
-This example starts as single process, which is identified as **primary** and creates several child processes (can be called workers), one per each available CPU core. Number of workers can be different for you, depends on how many core your machine has.
+This example starts as single process, which is identified as **primary** and creates several child processes (workers), one per each available CPU core. Number of workers can be different for you, depends on how many core your machine has.
 
-Worker is basically an instance of Node.js created by `child_process.fork()` method. Each worker runs code from `else` block which simply starts an http server. As a result we have multiple http servers that can serve requests in parallel sharing the same port.
+Worker is basically an instance of Node.js created by `child_process.fork()` method. Each worker runs code from `index.js` file, which simply starts an http server. As a result we have multiple http servers that can serve requests in parallel sharing the same port. In case worker crashes, we can spawn a new one, this is done inside `exit` event callback.
 
-> Workers can share any TCP connection, here we create an HTTP server.
-
-If you run this script you should see similar output:
+If you run `primary.js` you should see similar output:
 
 ```
-> node server.js
-Primary 3596 is running
-Worker 4324 started
-Worker 4520 started
-Worker 6056 started
-Worker 5644 started
+> node primary.js
+Primary pid=58882
+Process 58883 listening on port 3000
+Process 58884 listening on port 3000
+Process 58889 listening on port 3000
+Process 58887 listening on port 3000
 ```
 
 Workers are instances of class [Worker](https://nodejs.org/api/cluster.html#class-worker), because they are child processes they can talk to main process via IPC. Workers can send messages to parent in the same way as processes created by `fork()` method. Cluster has array of workers which can be accessed by id.
 
 ```javascript
-//...
+// inside primary.js
 for (const id in cluster.workers) {
   cluster.workers[id].on('message', ({ msg }) => {
     console.log('worker sent:', msg);
   });
 }
 
-// inside worker code
+// inside index.js
 if (req.url === '/fast') {
-  process.send({ msg: `processing on node ${process.pid}` });
+  process.send({ msg: `processing on worker ${process.pid}` });
   res.end('fast response');
 }
 ```
 
-In modern architecture this approach is not popular, moreover it's limited by capacity of the machine you are using. When you want to scale **horizontally** its more common to add more nodes instead of using multiple core of one node.
+In modern architecture using `cluster` module is not popular, moreover it's limited by capacity of the machine you are using. When you want to scale **horizontally** its more common to add more nodes instead of using multiple core of one node. In case you still want to cluster Node.js application consider using [pm2](https://pm2.keymetrics.io/) package.
 
 ## worker_threads
 
 It's time to talk about controversial topic in Node.js which is **multithreading** 😄!
 
-The `worker_threads` module allows you to execute Javascript code in parallel using threads.
+The `worker_threads` module allows you to execute Javascript code in parallel using threads. Workers threads can be used for offloading CPU-intensive tasks, such as complex calculations, image resizing, or video compression.
+
+💡 How is it different from cluster?
+
+Each worker thread in Node.js has its own main loop, such as libuv. Similarly, each cloned Node.js process in clustering also has its own main loop.
+
+Clustering is a technique used to distribute incoming requests to multiple copies of a Node.js server, allowing for load balancing.
+
+Worker threads, on the other hand, allow a single Node.js process to delegate long-running functions to separate threads, preventing them from blocking the main loop.
+
+Main difference from `child_process` or `cluster` is that worker threads **can share memory**. This can be done with help of `ArrayBuffer` and `SharedArrayBuffer` instances.
+
+Because worker threads do not require allocation of extra memory, they are more lightweight than processes created with `fork()`. Threads are similar to processes and also run in parallel using multiple cores, but spawning too many threads won't be beneficial and can cause even slowdown of the system.
+
+Now let's write code to imitate a CPU bound tak:
+
+```javascript
+console.time('time');
+
+let counter = 0;
+
+for (let i = 0; i < 3_000_000_000; i++) {
+  counter = counter + 1;
+}
+
+console.log(counter.toLocaleString());
+console.timeEnd('time');
+```
+
+We do 3 billion iterations in a loop, which takes on my machine around 3 seconds. We want to speedup this task and calculate same number with Workers. Each worker will do 1 billion of iterations and return result to main thread, then we sum results of workers.
+
+First let's create a `worker.js` file.
+
+```javascript
+import { workerData, parentPort } from 'worker_threads';
+
+let counter = 0;
+for (let i = 0; i < 3_000_000_000 / workerData.numberOfWorkers; i++) {
+  counter = counter + 1;
+}
+
+parentPort.postMessage(counter);
+```
+
+Worker thread can communicate with parent thread via messaging channel. `workerData` represents data sent to worker from parent and `parentPort.postMessage()` function is used to send data back to parent.
+
+Now create `index.js` file and offload our CPU heavy task by spiting it among threads.
+
+```javascript
+import { Worker } from 'worker_threads';
+
+const createWorker = (maxValue) =>
+  new Promise((resolve, reject) => {
+    const worker = new Worker('./worker.js', {
+      workerData: { thread_count: THREAD_COUNT },
+    });
+
+    worker.on('message', (data) => {
+      resolve(data);
+    });
+    worker.on('error', (error) => {
+      console.error(error);
+    });
+  });
+
+console.time('time');
+
+const MAX_WORKERS = 3_000_000_000 / 1_000_000_000;
+const workers = [];
+
+for (let i = 0; i < MAX_WORKERS; i++) {
+  workers.push(createWorker);
+}
+
+const results = await Promise.all(workers);
+console.log(results.reduce((acc, val) => acc + val, 0).toLocaleString());
+
+console.timeEnd('time');
+```
+
+To create a worker we need to create new `Worker` instance and pass file path. Additionally you can send data to worker using `workerData` param. In this example I send to worker max amount of threads so each worker can calculate only its part. `Worker` class implements `EventEmitter` API, meaning we should listen for events like `message` and `error`. To make code run in async manner we can create worker with `Promise` and resolve it when we got response from worker.
+
+Then we create array of worker promises and wait for all of them to finish and calculate result value.
+
+This code should complete the same task but much faster, for me it took round 600ms! Well done!
 
 ## Final
 
