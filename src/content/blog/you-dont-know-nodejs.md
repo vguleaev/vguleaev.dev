@@ -558,7 +558,7 @@ process.on('message', (msg) => {
 });
 ```
 
-This is the output of running this script.
+This is the output of running this code.
 
 ```
 > node parent.js
@@ -566,7 +566,7 @@ Message from parent: { value: 2 }
 Message from child:  { result: 4 }
 ```
 
-In this example I spawned completely new Node.js subprocess by executing `child.js` script. For this I called `fork()` function and passed path to a another js file. This again returns instance of `ChildProcess` but this time also establishes communication channel.
+In this example I spawned completely new Node.js subprocess by executing `child.js` file. For this I called `fork()` function and passed path to a another js file. This again returns instance of `ChildProcess` but this time also establishes communication channel.
 
 Yes, it must be a separate file, which will start a new Node.js program in **isolation**. This means sharing objects from main process memory is **not possible**!
 
@@ -656,8 +656,6 @@ Why do we need this?
 
 Node.js handles perfectly I/O tasks in asynchrones way using just single process and single thread. When we build our http servers we want to them to process as much user requests as possible and be very performant. Sometimes things doesn't go so well and we have code that can block main event loop. When this happens our server is stuck and cant accept any more requests.
 
-![Alt text](../../images/posts/nodejs-cluster-architecture.png)
-
 To demonstrate this, create a file `index.js` and start there http server with two endpoints one is fast and another is slow.
 To make endpoint slow we will use loop with 3 billion iterations to imitate CPU heavy task.
 
@@ -694,6 +692,8 @@ To avoid this we have two options:
 - use `cluster` module
 
 Cluster module allows us to create one primary node and as much workers nodes as you have cores available for parallelism. Cluster also acts like a load balancer and distributes requests across the workers in a round-robin fashion by default. All the workers are basically http servers which share the same port.
+
+![Alt text](../../images/posts/nodejs-cluster-architecture.png)
 
 Now create another file `primary.js` with the following code:
 
@@ -776,7 +776,7 @@ Main difference from `child_process` or `cluster` is that worker threads **can s
 
 Because worker threads do not require allocation of extra memory, they are more lightweight than processes created with `fork()`. Threads are similar to processes and also run in parallel using multiple cores, but spawning too many threads won't be beneficial and can cause even slowdown of the system.
 
-Now let's write code to imitate a CPU bound tak:
+Now let's write code to imitate a CPU bound task:
 
 ```javascript
 console.time('time');
@@ -813,26 +813,25 @@ Now create `index.js` file and offload our CPU heavy task by spiting it among th
 ```javascript
 import { Worker } from 'worker_threads';
 
-const createWorker = (maxValue) =>
-  new Promise((resolve, reject) => {
-    const worker = new Worker('./worker.js', {
-      workerData: { thread_count: THREAD_COUNT },
-    });
-
-    worker.on('message', (data) => {
-      resolve(data);
-    });
-    worker.on('error', (error) => {
-      console.error(error);
-    });
-  });
-
 console.time('time');
 
-const MAX_WORKERS = 3_000_000_000 / 1_000_000_000;
+const NUM_OF_WORKERS = 3_000_000_000 / 1_000_000_000;
 const workers = [];
 
-for (let i = 0; i < MAX_WORKERS; i++) {
+const createWorker = new Promise((resolve, reject) => {
+  const worker = new Worker('./worker.js', {
+    workerData: { numberOfWorkers: NUM_OF_WORKERS },
+  });
+
+  worker.on('message', (data) => {
+    resolve(data);
+  });
+  worker.on('error', (error) => {
+    console.error(error);
+  });
+});
+
+for (let i = 0; i < NUM_OF_WORKERS; i++) {
   workers.push(createWorker);
 }
 
