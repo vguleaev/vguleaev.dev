@@ -39,7 +39,7 @@ You are probably familiar with events by using Javascript in the browser: mouse 
 `emit` and `on`.
 
 - `emit` is used to trigger the event
-- `on` is to register event listener function
+- `on` is used to register event listener
 
 ```javascript
 import { EventEmitter } from 'events';
@@ -55,7 +55,7 @@ eventEmitter.emit('sendMessage', 'Hello Nodejs');
 
 When you emit an event you must give it a name. Name of event is used to register listener. You can also send some data together with an event as arguments.
 
-> If you change order of `emit` and `on` then you will not see a console log. This is because events are executed synchronous. Please consider using async functions for callback in case you need.
+> If you add `console.log()` after `emit()` function, then you will see it after the log inside event callback. This is because events are executed synchronous. Please consider using async function for callback in case you need.
 
 There can be multiple listeners to the same event. Event callbacks will be executed in the order they were registered.
 
@@ -77,7 +77,7 @@ What is binary data?
 
 Examples of binary data are images, files, audio, video and raw data from a network.
 
-You can create buffer and select its size using `alloc()` function. By default buffer is filled with zeros. This how you can create 3 bytes buffer.
+You can create buffer and choose its size using `alloc()` function. By default buffer is filled with zeros. This how you can create 3 bytes buffer.
 
 ```javascript
 import { Buffer } from 'buffer';
@@ -105,7 +105,7 @@ console.log(buffer.toString('utf8')); // hello
 console.log(buffer.toString('hex')); // 68656c6c6f
 ```
 
-In this example buffer is created from string `"hello"`. Every char in a string is 1 byte, so our buffer should have 5 bytes size. When you console log buffer it shows every byte in hexadecimal notation, but you can call `toString()` and specify the encoding.
+In this example buffer is created from string `'hello'`. Every char in a string is 1 byte (_not always_), so our buffer should have 5 bytes size. When you console log buffer it shows every byte in hexadecimal notation, but you can call `toString()` and specify the encoding.
 
 To prove that `Buffer` is actually an array of bytes you can iterate over it with simple for loop.
 
@@ -154,7 +154,7 @@ readStream.on('data', (chunk) => {
 
 You can notice that streams are actually instances of `EventEmitter`. It processes a chunk of data and emits an event called `data`.
 
-Chunks values are actually of type `Buffer`. In this example chunk buffers have 1 byte size. This is why we need to call `toString()` to see one letter per console log.
+Chunks values are actually of type `Buffer`. This is why we need to call `toString()` to see one letter per console log. In this example chunk buffers have 1 byte size.
 
 Now let's create a file using **writable stream**.
 
@@ -202,7 +202,7 @@ This stream is basically a transformer between input and output data. Then we ne
 
 Pipeline will process data in chunks, where every chunk will be read, compressed and then written to file. After running this code you should have gzip file created with name `file.txt.gz`.
 
-Now let's have a look at the exactly opposite example. We want to read gziped file and extract its original content. This can be done very easy by again using `pipeline` but this time use gunzip transform from `createGunzip`.
+Now let's have a look at the exactly opposite example. We want to read gziped file and extract its original content. This can be done very easy by again using `pipeline`, but this time use gunzip transform from `createGunzip`.
 
 ```javascript
 import { createGunzip } from 'zlib';
@@ -346,7 +346,8 @@ const server = http
       });
 
       req.on('end', () => {
-        console.log(body);
+        const parsed = JSON.parse(body);
+        console.log(parsed);
         res.end();
       });
     }
@@ -354,13 +355,15 @@ const server = http
   .listen(8080);
 ```
 
+> Body chunks can be of type `String` or `Buffer`. In this case it is `String`, so to make it an object we need to call `JSON.parse()`.
+
 ## https
 
 The `https` module in Node.js is needed to transfer data over HTTP TLS/SSL protocol, which is the secure HTTP protocol. Yes, https in Node.js is implemented in a separate module.
 
-This time we will not create a server, but instead make a http request. To make http request in Node.js you need to use method `https.request()` which returns back request object and accepts a callback function to process the response.
+This time we will not create a server, but instead make a http request. To make http request in Node.js you need to use method `https.request()` which returns request object and accepts a callback function to process the response.
 
-Here I will simply make a request to www.google.com and print to console HTML content of the google search page.
+Here we will simply make a request to www.google.com and print to console HTML content of the google search page.
 
 ```javascript
 import https from 'https';
@@ -393,17 +396,17 @@ req.end();
 
 > Port 443 is the standard port for HTTPS.
 
-The `options` object is used to specify details about the HTTP request, such as the hostname, port, path, and method. In our response callback function you can notice a similar pattern we already used before. Again we get a response stream and listen to **data** event until stream is finished. We can also handle error cases by adding a callback function for **error** event.
+The `options` object is used to specify details about the HTTP request, such as the hostname, port, path, and method. In our response callback function, you can notice a similar pattern we already used before. Again we get a response stream and listen to **data** event until stream is finished. We can also handle error cases by adding a callback function for **error** event.
 
 ## net
 
-The `net` module in Node.js provides functionality to create **TCP or IPC** servers and clients.
+The `net` module in Node.js provides functionality to create **TCP servers and clients**.
 
 How different is TCP server from HTTP? Well you probably know that HTTP utilizes TCP to transport data. TCP is transport layer protocol, while HTTP is application layer protocol. You can say that HTTP is more high level protocol which uses TCP under the hood.
 
 Main difference is that TCP is stateful and connection-oriented, meaning a connection between client and server is established before data can be sent.
 
-HTTP is generally considered stateless because, after the client has established a connection with a server, sent a request, and received a response, the connection is immediately dropped.
+HTTP is generally considered stateless, because after the client has established a connection with a server, sent a request, and received a response, the connection is immediately dropped.
 
 Enough theory.. 😬 Let's create a basic TCP server and send some data to it.
 
@@ -431,9 +434,9 @@ server.listen(3000, () => {
 });
 ```
 
-Here I create new TCP server using `net.createServer()` function. The callback function is called when client connects to the server, this creates an object called `socket` which represents the client connection. `Socket` object implements `EventEmitter` API and has familiar to us events for reading data sent to our server. These events are **data** and **end**. We can read data with the same pattern, reading chunk of data which are of type `Buffer` or `String`.
+Here we create new TCP server using `net.createServer()` function. The callback function is called when client connects to the server, this creates an object called `socket`, which represents the client connection. `Socket` object implements `EventEmitter` API and has familiar to us events for reading data. These events are **data** and **end**. We can read data with the same pattern, getting chunks of data of type `Buffer` or `String`.
 
-To respond client you can simply call function `socket.write()`. `Socket` object is also a `WritableStream`.
+To respond to client you can simply call function `socket.write()`. `Socket` object is also a `WritableStream`.
 
 To test this server you need to use something that can make TCP connections. Common terminal utilities for this are `netcat` or `telnet`, you maybe need to install them. This is the command to connect using **netcat**. You should be able to see welcome message right after connection.
 
@@ -442,7 +445,7 @@ To test this server you need to use something that can make TCP connections. Com
 Hello from TCP server!
 ```
 
-After connection is established you will see message `Hello from TCP server!` in terminal and then you can type any text and press enter to send data. You should be able to see data received and logged to the console on our server. Closing connection on client should result in seeing `'Client disconnected'` log on server.
+After connection is established you will see a message in terminal and then you can type any text and press enter to send data. You should be able to see data received and logged to the console on our server. Closing connection on client should result in seeing `'Client disconnected'` log on server.
 
 ## child_process
 
@@ -450,14 +453,14 @@ The `child_process` module provides functionality to create subprocesses in Node
 
 What is a thread? A thread is the subset of a process and is also known as the lightweight process. A process can have multiple threads.
 
-`child_process` module is used to spawn new processes, which can be called **child processes**. This module contains four main functions:
+`child_process` module is used to spawn new processes (_not threads_), which can be called **child processes**. This module has four main functions:
 
 - `spawn()`
 - `fork()`
 - `exec()`
 - `execFile()`
 
-Each of these methods returns [ChildProcess](https://nodejs.org/api/child_process.html#class-childprocess) instance which implements `EventEmitter` API.
+Each of these methods returns [ChildProcess](https://nodejs.org/api/child_process.html#class-childprocess) instance, which implements `EventEmitter` API.
 
 These methods create processes asynchronously, but also have a synchronous versions: `execSync()`, `execFileSync()`, `spawnSync()`. They need to be used with caution, because they will block the Node.js event loop!
 
@@ -465,7 +468,7 @@ These methods create processes asynchronously, but also have a synchronous versi
 
 `spawn()` is suitable for creating long-running processes or processes with a heavy output. Child process returned by it has `stdout` and `stderr` streams to return command output or errors.
 
-In this example I use `spawn` to execute a simple `ls -la` command to show files in current directory.
+In this example we use `spawn` to execute a simple `ls -la` command to show files in current directory.
 
 ```javascript
 import { spawn } from 'child_process';
@@ -485,15 +488,15 @@ child.on('close', (code) => {
 });
 ```
 
-I call `spawn` method and pass command as string and arguments in array of strings. This returns a `ChildProcess` instance, which has `stdout` and `stderr` properties, both of type `ReadableStream`. Streams implement `EventEmitter` API so we can listen to `data` events to see output of command or errors.
+We call `spawn` method and pass command as string and arguments in array of strings. This returns a `ChildProcess` instance, which has `stdout` and `stderr` properties, both of type `ReadableStream`. Streams implement `EventEmitter` API so we can listen to `data` events to see output of command or errors.
 
-How different is `exec`?
+💡 How different is `exec()`?
 
 `exec()` is designed to run smaller output processes and has a limit of **1 MB** of output data. Child processes returned by it again has `stdout` and `stderr` properties, but this time of type `String`!
 
 Output default encoding is UTF-8. You can set encoding to `buffer` in options, then `Buffer` object will be returned as output.
 
-In this example I use `exec` to execute a simple `ls -la` command.
+In this example we use `exec` to execute a simple `ls -la` command.
 
 ```javascript
 import { exec } from 'child_process';
@@ -513,9 +516,9 @@ const child = exec('ls -la', (error, stdout, stderr) => {
 
 > `exec()` by default spawns a shell, similar as you running commands in terminal, on the other hand `spawn()` is not doing it by default.
 
-I call `exec` method and pass whole command as one string and a callback function which will run when process is finished. Callback function has three arguments: error, stdout and stderr to read process output and errors.
+We call `exec()` method and pass whole command as one string and a callback function which will run when process is finished. Callback function has three arguments: error, stdout and stderr to read process output and errors.
 
-**Bonus**: because `exec` is not using streams but returns output at once within a callback function, we can turned it into promise based function using utility from Node.js `util.promisify()`. This makes it much more readable, have a look:
+`exec()` is not using streams, but returns output at once within a callback function. This is why we can turn it into promise based function using utility from Node.js `util.promisify()`. This makes it much more readable, have a look:
 
 ```javascript
 import util from 'util';
@@ -528,6 +531,8 @@ console.error('stderr:', stderr);
 ```
 
 🛑 Warning: `exec()` and `spawn()` are NOT designed for spawning Node.js processes!
+
+> e.g. `exec('node index.js')`
 
 For this case we should use `fork()`, because it allows **IPC communication** between parent and child processes by sending messages.
 
@@ -566,11 +571,15 @@ Message from parent: { value: 2 }
 Message from child:  { result: 4 }
 ```
 
-In this example I spawned completely new Node.js subprocess by executing `child.js` file. For this I called `fork()` function and passed path to a another js file. This again returns instance of `ChildProcess` but this time also establishes communication channel.
+In this example we spawned completely new Node.js subprocess by executing `child.js` file.
 
-Yes, it must be a separate file, which will start a new Node.js program in **isolation**. This means sharing objects from main process memory is **not possible**!
+For this we used `fork()` function and passed path to a another js file. `fork()` returns instance of `ChildProcess`, but this time also establishes communication channel.
 
-The only way to communicate between parent and child is by IPC (inter-process communication) channel, meaning sending messages. Luckily they are serializable, so we dont need to parse strings (e.g I send number in this example and I dont need to cast it).
+Yes, it must be a separate file, which will start a new Node.js program in **isolation**. This means sharing values from main process memory is **not possible**!
+
+The only way to communicate between parent and child is by IPC (inter-process communication) channel, meaning sending messages. Luckily values are serialized, so we dont need to parse strings (_e.g we send number in this example and we dont need to cast it_ 😉).
+
+Serialization of values are based on the [HTML structured clone algorithm](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm).
 
 Parent process can send data to child by calling `child.send()` function and read messages by registering a callback to `child.on('message')` event.
 
@@ -578,7 +587,7 @@ Child process can receive message from parent by listening to `process.on('messa
 
 > Parent program will not terminate until all spawned subprocesses are exited. So calling process.exit() is very important inside child. Alternatively parent can kill a child process by calling child.kill().
 
-What is the use case of fork?
+💡 What is the use case of `fork()`?
 
 Well, parallel programming is the answer. It gives the ability to execute multiple Node.js applications at the same time, so in parallel. This can be useful when dealing with CPU heavy computation tasks like processing graphics, mathematical calculations, and video or image compression.
 
@@ -682,7 +691,7 @@ http
 console.log(`Process ${process.pid} listening on port 3000`);
 ```
 
-Slow endpoint request time is around 3 seconds and fast is less than 20 ms. ⌛
+Slow endpoint response time is around 3 seconds and fast is less than 20 ms. ⌛
 
 If you hit `/slow` endpoint first and then immediately hit `/fast`, you can notice that `/fast` is also hanging. This is because, slow endpoint **blocks Event Loop** and makes CPU busy, meaning http server cant handle any requests.
 
@@ -726,7 +735,7 @@ Here we start the same `index.js` file with `/slow` and `/fast` endpoints in a c
 
 This example starts as single process, which is identified as **primary** and creates several child processes (workers), one per each available CPU core. Number of workers can be different for you, depends on how many core your machine has.
 
-Worker is basically an instance of Node.js created by `child_process.fork()` method. Each worker runs code from `index.js` file, which simply starts an http server. As a result we have multiple http servers that can serve requests in parallel sharing the same port. In case worker crashes, we can spawn a new one, this is done inside `exit` event callback.
+Worker is basically an instance of Node.js created by `child_process.fork()` method. Each worker runs code from `index.js` file, which simply starts a http server. As a result we have multiple http servers that can serve requests in parallel sharing the same port. In case worker crashes, we can spawn a new one, this is done inside `exit` event callback.
 
 If you run `primary.js` you should see similar output:
 
