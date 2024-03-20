@@ -654,9 +654,9 @@ The `cluster` module of Node.js allows to spawn multiple processes which share t
 
 Why do we need this?
 
-Node.js handles perfectly I/O tasks in asynchrones way using just single process and single thread. When we build our http servers we want to them to process as much user requests as possible and be very performant. Sometimes things doesn't go so well and we have code that can block main event loop. When this happens our server is stuck and cant accept any more requests.
+Node.js handles perfectly I/O tasks in asynchronous way using just single process and single thread. When we build our http servers we want them to process as much user requests as possible and be very performant. Sometimes things doesn't go so well and we have code that can block main event loop. When this happens our server is stuck and cant accept any more requests.
 
-To demonstrate this, create a file `index.js` and start there http server with two endpoints one is fast and another is slow.
+To demonstrate this, create a file `index.js` and start http server with two endpoints, one is fast and another is slow.
 To make endpoint slow we will use loop with 3 billion iterations to imitate CPU heavy task.
 
 ```javascript
