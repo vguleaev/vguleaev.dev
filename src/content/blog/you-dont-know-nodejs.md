@@ -805,6 +805,7 @@ We do 3 billion iterations in a loop, which takes on my machine around 3 seconds
 First let's create a `worker.js` file.
 
 ```javascript
+// worker.js
 import { workerData, parentPort } from 'worker_threads';
 
 let counter = 0;
@@ -820,6 +821,7 @@ Worker thread can communicate with parent thread via messaging channel. `workerD
 Now create `index.js` file and offload our CPU heavy task by spiting it among threads.
 
 ```javascript
+// index.js
 import { Worker } from 'worker_threads';
 
 console.time('time');
@@ -827,21 +829,21 @@ console.time('time');
 const NUM_OF_WORKERS = 3_000_000_000 / 1_000_000_000;
 const workers = [];
 
-const createWorker = new Promise((resolve, reject) => {
-  const worker = new Worker('./worker.js', {
-    workerData: { numberOfWorkers: NUM_OF_WORKERS },
+const createWorker = () =>
+  new Promise((resolve, reject) => {
+    const worker = new Worker('./worker.js', {
+      workerData: { numberOfWorkers: NUM_OF_WORKERS },
+    });
+    worker.on('message', (data) => {
+      resolve(data);
+    });
+    worker.on('error', (error) => {
+      reject(error);
+    });
   });
-
-  worker.on('message', (data) => {
-    resolve(data);
-  });
-  worker.on('error', (error) => {
-    console.error(error);
-  });
-});
 
 for (let i = 0; i < NUM_OF_WORKERS; i++) {
-  workers.push(createWorker);
+  workers.push(createWorker());
 }
 
 const results = await Promise.all(workers);
