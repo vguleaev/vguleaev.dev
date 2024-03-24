@@ -854,9 +854,99 @@ console.timeEnd('time');
 
 To create a worker we need to create new `Worker` instance and pass file path. Additionally you can send data to worker using `workerData` param. In this example I send to worker max amount of threads so each worker can calculate only its part. `Worker` class implements `EventEmitter` API, meaning we should listen for events like `message` and `error`. To make code run in async manner we can create worker with `Promise` and resolve it when we got response from worker.
 
-Then we create array of worker promises and wait for all of them to finish and calculate result value.
+Then we create array of worker promises and wait for all of them to finish and calculate result value. This code should complete the same task but much faster, for me it took round 600ms! Well done 🎉!
 
-This code should complete the same task but much faster, for me it took round 600ms! Well done!
+💡 How to share memory with `SharedArrayBuffer`?
+
+One of the advantages using `worker_threads` is **sharing memory** with main process. To create a shared block of memory we need to use `SharedArrayBuffer`.
+
+`SharedArrayBuffer` is binary data buffer of fixed length which can be accessed and modified directly from workers or from main thread. Accessing the shared resource simultaneously or performing operations leads to **race conditions**. To synchronize, [atomic](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics) operations are needed.
+
+> Any other type of data sent to worker threads as `workerData` will be copied, `SharedArrayBuffer` is the exception.
+
+Let's create a shared array buffer of one integer size (4 bytes). Then we can convert it to an array of numbers, in our case we have memory for just one number.
+
+```javascript
+const sab = new SharedArrayBuffer(Uint32Array.BYTES_PER_ELEMENT);
+const sharedArray = new Uint32Array(sab);
+```
+
+Now we can pass this shared array to worker as `workerData`. Our worker can directly assess and modify shared array data.
+
+```javascript
+// index.js
+const worker = new Worker('./worker.js', {
+  workerData: { sharedArray },
+});
+
+// worker.js
+import { workerData } from 'worker_threads';
+workerData.sharedArray[0] = 10; // changes will be reflected in main thread
+```
+
+As we know working with shared resources is dangerous, when we don't have any lock mechanism to prevent race conditions. For this case we have Javascript primitives called `Atomics`.
+
+When memory is shared, multiple threads can read and write the same data in memory. Atomic operations make sure that predictable values are written and read, that operations are finished before the next operation starts and that operations are not interrupted.
+
+Now let's complete our example using `SharedArrayBuffer` and `Atomics`. This is updated `worker.js` file.
+
+```javascript
+// worker.js
+import { workerData } from 'worker_threads';
+const { sharedArray, numberOfWorkers } = workerData;
+
+let counter = 0;
+
+for (let i = 0; i < 3_000_000_000 / numberOfWorkers; i++) {
+  counter = counter + 1;
+}
+
+Atomics.add(sharedArray, 0, counter);
+```
+
+We get sharedArray as workerData, then calculate our counter and add it to number at position 0 of shared array, using `Atomics.add()` function.
+
+Operation like this: `sharedArray[0] += counter` is not atomic! Actually there are three operations here: read, summ and assign. Atomics guarantee that operation will be performed as single transaction in memory to prevent race conditions.
+
+Now please have a look at updated `index.js` file.
+
+```javascript
+// index.js
+import { Worker } from 'worker_threads';
+
+console.time('time');
+
+const NUM_OF_WORKERS = 3_000_000_000 / 1_000_000_000;
+const workers = [];
+
+const sab = new SharedArrayBuffer(Uint32Array.BYTES_PER_ELEMENT);
+const sharedArray = new Uint32Array(sab);
+
+const createWorker = () =>
+  new Promise((resolve, reject) => {
+    const worker = new Worker('./worker.js', {
+      workerData: { numberOfWorkers: NUM_OF_WORKERS, sharedArray },
+    });
+    worker.on('error', (error) => {
+      console.log('worker error:', error);
+      reject(error);
+    });
+    worker.on('exit', (code) => {
+      resolve(code);
+    });
+  });
+
+for (let i = 0; i < NUM_OF_WORKERS; i++) {
+  workers.push(createWorker());
+}
+
+await Promise.all(workers);
+console.log(sharedArray[0]);
+
+console.timeEnd('time');
+```
+
+Here we create `SharedArrayBuffer` and send it as `workerData` to all workers. All workers use the same array instance. This time we dont resolve worker process on `data` event but on `exit`. This is because workers dont send result back to parent, but use shared array. After all workers finished their job, we simply log number from shared array at position 0.
 
 ## Final
 

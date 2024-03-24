@@ -3,6 +3,10 @@
   @apply text-lg text-gray-800 dark:text-gray-200 my-5;
 }
 
+.prose > h1 {
+  @apply text-2xl font-bold md:text-3xl dark:text-white;
+}
+
 .prose > h2 {
   @apply text-2xl font-bold md:text-3xl dark:text-white;
 }
@@ -20,7 +24,7 @@
 }
 
 .prose > blockquote > p > code {
-	padding: 3px 5px;
+  padding: 3px 5px;
   @apply bg-gray-200 dark:bg-gray-800 text-sm text-gray-800 dark:text-gray-200 rounded-md;
 }
 
@@ -33,7 +37,7 @@
 }
 
 .prose > uL > li > code {
-	padding: 3px 5px;
+  padding: 3px 5px;
   @apply bg-gray-200 dark:bg-gray-800 text-sm text-gray-800 dark:text-gray-200 rounded-md;
 }
 
@@ -46,17 +50,17 @@
 }
 
 .prose > p > code {
-	padding: 3px 5px;
+  padding: 3px 5px;
   @apply bg-gray-200 dark:bg-gray-800 text-sm text-gray-800 dark:text-gray-200 rounded-md;
 }
 
 .prose > pre {
-	padding: 1.5em;
-	border-radius: 8px;
+  padding: 1.5em;
+  border-radius: 8px;
   font-size: 15px;
   @apply my-5;
 }
 
 .prose > pre > code {
-	all: unset;
+  all: unset;
 }
