@@ -948,6 +948,8 @@ console.timeEnd('time');
 
 Here we create `SharedArrayBuffer` and send it as `workerData` to all workers. All workers use the same array instance. This time we dont resolve worker process on `data` event but on `exit`. This is because workers dont send result back to parent, but use shared array. After all workers finished their job, we simply log number from shared array at position 0.
 
+Spawning too many workers can cause thread starvation. Managing worker thread pool is challenging, in case you want to use multiple workers consider using [piscina](https://www.npmjs.com/package/piscina).
+
 ## Final
 
 Huh, it was a long journey! You can find more info in [official documentation](https://nodejs.org/docs/latest/api/).
