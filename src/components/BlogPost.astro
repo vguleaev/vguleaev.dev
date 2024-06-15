@@ -7,7 +7,7 @@ const { post } = Astro.props;
 <a class="group block" href={`/blog/${post.slug}/`}>
   <div class="overflow-hidden rounded-xl">
     <Image
-      class="w-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-500 ease-in-out"
+      class="w-full object-cover rounded-xl lg:group-hover:scale-105 transition-transform duration-500 ease-in-out"
       width={720}
       height={360}
       src={post.data.image.url}
@@ -15,7 +15,7 @@ const { post } = Astro.props;
     />
   </div>
   <h3
-    class="mt-2 text-lg font-medium text-gray-800 group-hover:text-blue-600 dark:text-gray-300 dark:group-hover:text-white">
+    class="mt-2 text-lg font-medium transition-colors duration-300 text-gray-800 group-hover:text-rose-600 dark:text-gray-300 dark:group-hover:text-white">
     {post.data.title}
   </h3>
   <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{formatDate(post.data.pubDate)}</p>

@@ -266,7 +266,7 @@ console.log(encrypted); // 94366f8f470486f2477c7f0908a55e9f
 
 In this example I encrypt `"hello world"` string using `aes-256-cbc` algorithm. For this we will need to create cipher by calling `createCipheriv()` function and two things **key** and **iv**. Both are of type `Buffer`.
 
-They need to be as much random as possible to prevent hacking attempts. Iv is an [Initialization vector](https://en.wikipedia.org/wiki/Initialization_vector) and must be specific length. Note that AES-256 uses a 256 bits length key (32 bytes) and 128 bits iv (16 bytes).
+They need to be as much random as possible to prevent hacking attempts. Iv is an [Initialization vector](https://en.wikipedia.org/wiki/Initialization_vector) and must be of specific length. Note that AES-256 uses a 256 bits length key (32 bytes) and 128 bits iv (16 bytes).
 
 To decrypt string we can perform a very similar operation, but this time using decipher from `createDecipheriv()` function.
 
@@ -462,7 +462,7 @@ What is a thread? A thread is the subset of a process and is also known as the l
 
 Each of these methods returns [ChildProcess](https://nodejs.org/api/child_process.html#class-childprocess) instance, which implements `EventEmitter` API.
 
-These methods create processes asynchronously, but also have a synchronous versions: `execSync()`, `execFileSync()`, `spawnSync()`. They need to be used with caution, because they will block the Node.js event loop!
+These methods create processes asynchronously, but also have synchronous versions: `execSync()`, `execFileSync()`, `spawnSync()`. They need to be used with caution, because they will block the Node.js event loop!
 
 `spawn()` and `exec()` are used to execute **external** process.
 

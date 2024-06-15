@@ -8,7 +8,7 @@ Tech Stack:
 
 - [Astro](https://astro.build/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- [Preline](https://preline.co/)
+- [Preline UI](https://preline.co/)
 - [Vercel](https://vercel.com/)
 
 Give a ⭐️ if you like the project!

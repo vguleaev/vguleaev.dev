@@ -12,13 +12,9 @@ const isActive = pathname.startsWith(href as string) || (href === '/blog' && pat
 <a href={href} class:list={[className, { active: isActive }]} {...props}>
   <slot />
 </a>
+
 <style>
-  a {
-    display: inline-block;
-    text-decoration: none;
-  }
   a.active {
-    font-weight: bolder;
-    text-decoration: underline;
+    @apply before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:w-full before:h-1 before:bg-rose-400 hover:text-black dark:hover:text-white;
   }
 </style>

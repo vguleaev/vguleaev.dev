@@ -1,0 +1,63 @@
+---
+
+---
+
+<div class="md:hidden">
+  <button
+    type="button"
+    class="hs-collapse-toggle w-[24px] h-[24px] flex justify-center items-center text-sm font-semibold text-black hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:border-neutral-700 dark:hover:bg-neutral-700"
+    data-hs-collapse="#navbar-collapse-with-animation"
+    aria-controls="navbar-collapse-with-animation"
+    onclick="toggleNavbar()"
+    aria-label="Toggle navigation">
+    <svg
+      id="navbar-burger-button-icon"
+      class="flex-shrink-0 size-4"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round">
+      <line x1="3" x2="21" y1="6" y2="6"></line>
+      <line x1="3" x2="21" y1="12" y2="12"></line>
+      <line x1="3" x2="21" y1="18" y2="18"></line>
+    </svg>
+    <svg
+      id="navbar-burger-button-close-icon"
+      class="hs-collapse-open:block hidden flex-shrink-0 size-4"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round">
+      <path d="M18 6 6 18"></path>
+      <path d="m6 6 12 12"></path>
+    </svg>
+  </button>
+</div>
+
+<script lang="ts">
+  function toggleNavbar() {
+    const navbar = document.getElementById('navbar-collapse-with-animation');
+    const bugerButtonIcon = document.getElementById('navbar-burger-button-icon');
+    const bugerButtonCloseIcon = document.getElementById('navbar-burger-button-close-icon');
+
+    if (navbar?.classList.contains('hidden')) {
+      navbar?.classList.remove('hidden');
+      bugerButtonIcon?.classList.add('hidden');
+      bugerButtonCloseIcon?.classList.remove('hidden');
+    } else {
+      navbar?.classList.add('hidden');
+      bugerButtonIcon?.classList.remove('hidden');
+      bugerButtonCloseIcon?.classList.add('hidden');
+    }
+  }
+</script>

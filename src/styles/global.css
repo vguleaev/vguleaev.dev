@@ -20,7 +20,7 @@
 }
 
 .prose > blockquote > p > a {
-  @apply text-blue-600 decoration-2 hover:underline font-medium;
+  @apply text-rose-600 decoration-2 hover:underline font-medium;
 }
 
 .prose > blockquote > p > code {
@@ -46,7 +46,7 @@
 }
 
 .prose > p > a {
-  @apply text-blue-600 decoration-2 hover:underline font-medium;
+  @apply text-rose-600 decoration-2 hover:underline font-medium;
 }
 
 .prose > p > code {

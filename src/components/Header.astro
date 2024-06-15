@@ -2,18 +2,23 @@
 import HeaderLink from './HeaderLink.astro';
 import { GITHUB_LINK, LINKEDIN_LINK, SITE_TITLE, TWITTER_LINK } from '../consts';
 import ThemeSwitcher from './ThemeSwitcher.astro';
+import HeaderBurgerButton from './HeaderBurgerButton.astro';
 ---
 
-<header class="bg-white dark:bg-slate-900 text-gray-800 dark:text-gray-200">
-  <nav>
-    <h2 class="hidden md:block text-xl"><a href="/">{SITE_TITLE}</a></h2>
-    <div class="internal-links">
-      <HeaderLink class="w-[70px] text-center" href="/blog">Blog</HeaderLink>
-      <HeaderLink class="w-[70px] text-center" href="/tags">Tags</HeaderLink>
-      <HeaderLink class="w-[70px] text-center" href="/about">About</HeaderLink>
+<header class="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full py-5 px-4 md:px-0">
+  <nav class="relative max-w-7xl w-full flex flex-wrap md:grid md:grid-cols-12 basis-full items-center mx-auto">
+    <div class="title md:col-span-3">
+      <a
+        class="flex flex-row items-center text-xl font-semibold focus:outline-none hover:opacity-80 focus:opacity-80"
+        href="/">
+        <img src="/favicon.ico" alt="Favicon" class="inline-block mr-2 w-6 h-6 rounded-sm" />
+        <span class="text-black dark:text-white hover:text-gray-600 dark:hover:text-neutral-300">{SITE_TITLE}</span>
+      </a>
     </div>
-    <div class="social-links flex just-center items-center gap-4 pb-3">
+
+    <div class="social-links flex items-center gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3">
       <ThemeSwitcher />
+      <HeaderBurgerButton />
       <a
         class="hidden md:block dark:fill-zinc-100 hover:fill-zinc-400 dark:hover:fill-zinc-400 transition w-6 h-6"
         href={GITHUB_LINK}
@@ -26,7 +31,6 @@ import ThemeSwitcher from './ThemeSwitcher.astro';
           ></path></svg
         >
       </a>
-
       <a
         class="hidden md:block dark:fill-zinc-100 hover:fill-zinc-400 dark:hover:fill-zinc-400 transition w-6 h-6"
         href={TWITTER_LINK}
@@ -48,40 +52,36 @@ import ThemeSwitcher from './ThemeSwitcher.astro';
         >
       </a>
     </div>
+
+    <div
+      id="navbar-collapse-with-animation"
+      class="header-links hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6">
+      <div
+        class="flex flex-col gap-y-4 gap-x-0 mt-5 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
+        <div>
+          <HeaderLink
+            class="relative inline-block text-black hover:text-gray-600 dark:text-white dark:hover:text-neutral-300"
+            href="/blog"
+            >Blog
+          </HeaderLink>
+        </div>
+        <div>
+          <HeaderLink
+            class="relative inline-block text-black hover:text-gray-600 dark:text-white dark:hover:text-neutral-300"
+            href="/about"
+            >About
+          </HeaderLink>
+        </div>
+        <div>
+          <HeaderLink
+            class="relative inline-block text-black hover:text-gray-600 dark:text-white dark:hover:text-neutral-300"
+            href="/tags"
+            >Tags
+          </HeaderLink>
+        </div>
+      </div>
+    </div>
   </nav>
 </header>
 
-<style>
-  header {
-    margin: 0;
-    padding: 0 1em;
-    background: white;
-    box-shadow: 0 2px 8px rgba(var(--black), 5%);
-  }
-  h2 {
-    margin: 0;
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-  }
-
-  h2 a,
-  h2 a.active {
-    text-decoration: none;
-  }
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .internal-links a {
-    padding: 1em 0.5em;
-    border-bottom: 4px solid transparent;
-    text-decoration: none;
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-  }
-  .internal-links a.active {
-    text-decoration: none;
-    border-bottom-color: var(--accent);
-  }
-</style>
+<style></style>

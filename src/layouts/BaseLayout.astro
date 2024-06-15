@@ -24,7 +24,7 @@ const { pageTitle, image, description } = Astro.props;
     <BaseHead title={pageTitle} description={description} image={image?.url.src} />
     <ViewTransitions />
   </head>
-  <body class="bg-white dark:bg-slate-900 flex flex-col h-full">
+  <body class="bg-white dark:bg-neutral-900 flex flex-col h-full">
     <Header />
     <main class="text-gray-800 dark:text-gray-200">
       <slot />
