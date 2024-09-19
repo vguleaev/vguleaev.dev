@@ -818,7 +818,7 @@ parentPort.postMessage(counter);
 
 Worker thread can communicate with parent thread via messaging channel. `workerData` represents data sent to worker from parent and `parentPort.postMessage()` function is used to send data back to parent.
 
-Now create `index.js` file and offload our CPU heavy task by spiting it among threads.
+Now create `index.js` file and offload our CPU heavy task by splitting it among threads.
 
 ```javascript
 // index.js
