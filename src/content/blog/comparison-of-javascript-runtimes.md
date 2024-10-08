@@ -1,0 +1,108 @@
+---
+title: 'Comparison of JS runtimes (Node, Deno, Bun)'
+description: 'Compare most popular javascript runtimes like Node, Deno and Bun'
+pubDate: 2024-10-06
+image:
+  url: './covers/comparison-of-javascript-runtimes.png'
+  alt: 'Blog post image'
+tags: ['Javascript', 'Node.js', 'Deno', 'Bun']
+---
+
+I recently tried new Javascript runtimes like [Bun](https://bun.sh/) and [Deno](https://deno.com/) to see which new exciting features they bring and I would say it left me quite impressed. In this article, we'll compare Node.js with its competitors.
+
+Let's begin!
+
+## Overview
+
+**Node.js**
+
+Node.js is the most widely used JavaScript runtime, built on Chrome's V8 JavaScript engine. It revolutionized server-side JavaScript by providing a non-blocking, event-driven architecture. Node.js comes bundled with its package manager [npm](https://www.npmjs.com/), which also has a package registry with enormous amount of libraries. 😃
+
+**Deno**
+
+Deno is a modern runtime for JavaScript and TypeScript, created by Ryan Dahl, the original creator of Node.js and released in 2019. Deno also uses the V8 Javascript engine, but is written in Rust instead of C/C++. It aims to address some of the problems of Node.js, primarily focusing on security.
+
+**Bun**
+
+Bun is relatively new JavaScript and TypeScript runtime that focuses on performance and developer experience. Bun first version was released in 2021. Bun is written in Zig programming langauge and unlike Node and Deno uses WebKit's JavaScriptCore engine.
+
+
+## Typescript
+
+Typescript is first class citizen in Deno and Bun. This means both runtimes **can execute** `.ts` files without need of `ts.config` and compilation. 
+
+I personally think this is an awesome feature, which made me try Deno and Bun in the first place.
+
+Lets try it on example. We have an `example.ts` file:
+
+```typescript
+enum AccountType {
+  SAVINGS = "Savings",
+  CHECKING = "Checking",
+  BUSINESS = "Business"
+}
+
+const myAccountType: AccountType = AccountType.SAVINGS;
+console.log(myAccountType); 
+```
+
+To run with Bun use `bun run example.ts` and it just works! Same about Deno, simply `deno run example.ts`. Just perfect!
+
+With Nodejs you can use a trick to run it, `npx tsx example.ts`. And this also works, but its a trick because it temporary installs tsx compiler for one run.
+
+However...hold your horses. Because a recent release of **Nodejs v22** already has an experimental flag to enable executing typescript files. 🧐
+
+This feature is called [Type stripping](https://nodejs.org/api/typescript.html) and only available with experimental flag ` --experimental-strip-types`. This basically allows Node to execute Typescript, but it **will not do a compilation** step. Essentially, it replaces all type definitions with whitespace 😎.
+
+I specifically picked this example using `enum` from Typescript, because this is a functionality that doesn't exist in Javascript. So as you probably guess if you try to run this `node --experimental-strip-types example.ts`, then it wil fail. Saying that enum is not supported in strip-only mode. Same will apply to other TS only functionalities like namespaces and decorators. 
+
+Anyway this is a very cool feature of Nodejs and a big step forward.
+
+## Dependency management
+
+Node.js uses npm to manage dependencies. They are listed in `package.json` file and needs to be installed by `npm install` into a black hole folder called `node_modules`. 🌚 This folder usually gets gigantic since it has project dependencies and all dependencies of dependencies...
+
+Let's first have a look at Deno, because it takes absolutely different approach to manage dependencies. Imports in Deno are called **URL-based imports** and look something like this:
+
+```javascript
+import { serve } from "https://deno.land/std@0.106.0/http/server.ts";
+```
+
+In Deno you don't need to run a separate command like `deno install` and it also **does not have** `node_modules` folder 🤯. Deno fetches and caches the dependencies automatically when you run your code and stores them globally in user's home directory.
+
+I know you probably think that having _ugly long urls_ are no very convenient 😆, leave alone that versions are hardcoded inside string. There is a solution though, which is a `deno.json` file. This file acts similliar to `package.json`, it has tasks to run and also listed dependencies with the versions, which allow you simply to create aliases for imports. 
+
+Let's make an example of adding **lodash** package. Run `deno add lodash`, it will first try to find this package in [JSR](https://jsr.io/) and then will suggest to add it from [npm](https://www.npmjs.com/). After that you will se a `deno.json` file like this:
+
+```json
+{
+  "tasks": {
+    "dev": "deno run --watch main.ts"
+  },
+  "imports": {
+    "lodash": "npm:lodash@^4.17.21"
+  }
+}
+```
+
+Here in `imports` section we simply resolve lodash import to an npm package with specific version. This is how you can use this in code after:
+
+```typescript
+import _ from 'lodash';
+```
+
+Personally, I find URL imports to be complicated and an unnecessary learning curve 😞. This feature seems overly complex and doesn't offer significant benefits compared to Node.js imports and the `package.json` approach.
+
+I mentioned that Deno will try to find package in **JSR** registry first, this is a new alternative to npm registry created by Deno team. JSR main feature is security and typescript support.
+
+So what about Bun dependencies? 🤔
+
+With Bun you use dependencies in exactly same way as in Node. It also has same `package.json` file and it also has `node_modules` folder. The main imporovement of Bun is **blazingly fast installation** of packages. Yes..it is that fast. Simply try it yourself. 
+
+Bun also replaces `package.lock` file with `bun.lockb` file which is a binary. To add lodash with Bun run `bun add lodash` (this took 200 ms for me).
+
+<!-- ## Final
+
+Huh, it was a long journey! You can find more info in [official documentation](https://nodejs.org/docs/latest/api/).
+
+I hope you can feel now more confident using unpopular features of Node.js 😄! -->
