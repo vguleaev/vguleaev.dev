@@ -184,9 +184,9 @@ describe('great test', () => {
 
 > Test runner in Node is considered stable, read more [here](https://nodejs.org/api/test.html).
 
-## Node compatibility
+## Node.js compatibility
 
-Both Deno and Bun are created as drop-in Node replacements and trying to provide full Node.js compatibility.
+Both Deno and Bun are created as **drop-in Node replacements** and trying to provide full Node.js compatibility.
 
 This includes support for common Node.js APIs and the ability to run existing JavaScript and TypeScript code.
 
@@ -199,11 +199,61 @@ const fileContent = fs.readFileSync('./test.txt', 'utf-8');
 console.log(fileContent);
 ```
 
-This is an important feature to make the transition for developers as smooth as possible.
+This feature is crucial for a smooth transition for developers, which is something I highly value when exploring new technologies 😍.
 
 ## Examples (HTTP server)
 
-TBD
+Time for code! Lets compare how a simple HTTP server will look like implemented in all three runtimes.
+
+Nodejs:
+```javascript
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  res.end('Hello, World!');
+});
+
+server.listen(3000, () => {
+  console.log('Server running at http://localhost:3000/');
+});
+```
+
+Deno:
+```typescript
+function handler(req: Request): Response {
+  return new Response('Hello, World!');
+}
+
+Deno.serve({ port: 3000, handler });
+
+console.log('Server running at http://localhost:3000/');
+```
+
+Bun:
+```typescript
+function handler(req: Request): Response {
+  return new Response('Hello, World!');
+}
+
+Bun.serve({ port: 3000, fetch: handler });
+
+console.log('Server running at http://localhost:3000/');
+```
+
+As you can see, the Bun and Deno versions are nearly identical and offer a more modern and elegant approach compared to Node.js.
+
+Another important note is that both Bun and Deno use **Web API standards**. The [Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) and [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) objects are standard Web APIs (Fetch API), while Node.js uses its own specific `http.IncomingMessage` and `http.ServerResponse` objects.
+
+This allows me to make such a simple change to read a request body:
+
+```typescript
+async function handler(req: Request): Promise<Response> {
+  const body = await req.json();
+  return new Response(body);
+}
+```
+
+Feels like a breath of fresh air after Nodejs 🍃!
 
 ## Final
 
@@ -214,4 +264,4 @@ If you're eager to learn more about Deno and Bun, I highly recommend visiting th
 - [Deno Documentation](https://docs.deno.com/)
 - [Bun Documentation](https://bun.sh/docs)
 
-Happy coding!
+Check out their examples sections, they are very cool!
