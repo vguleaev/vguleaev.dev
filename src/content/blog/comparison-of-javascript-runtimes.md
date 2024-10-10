@@ -70,6 +70,8 @@ import { serve } from "https://deno.land/std@0.106.0/http/server.ts";
 
 In Deno you don't need to run a separate command like `deno install` and it also **does not have** `node_modules` folder 🤯. Deno fetches and caches the dependencies automatically when you run your code and stores them globally in user's home directory.
 
+> Deno also provides support for `package.json` and `node_modules` folder as part of backward Nodejs compatibility, as well as `deno install`.
+
 I know you probably think that having _ugly long urls_ are no very convenient 😆, leave alone that versions are hardcoded inside string. There is a solution though, which is a `deno.json` file. This file acts similliar to `package.json`, it has tasks to run and also listed dependencies with the versions, which allow you simply to create aliases for imports. 
 
 Let's make an example of adding **lodash** package. Run `deno add lodash`, it will first try to find this package in [JSR](https://jsr.io/) and then will suggest to add it from [npm](https://www.npmjs.com/). After that you will se a `deno.json` file like this:
@@ -93,7 +95,7 @@ import _ from 'lodash';
 
 Personally, I find URL imports to be complicated and an unnecessary learning curve 😞. This feature seems overly complex and doesn't offer significant benefits compared to Node.js imports and the `package.json` approach.
 
-I mentioned that Deno will try to find package in **JSR** registry first, this is a new alternative to npm registry created by Deno team. JSR main feature is security and typescript support.
+I mentioned that Deno will try to find package in **JSR** registry first, this is a new alternative to npm registry created by Deno team. JSR main feature is security, transparency and typescript support.
 
 So what about Bun dependencies? 🤔
 
@@ -101,8 +103,115 @@ With Bun you use dependencies in exactly same way as in Node. It also has same `
 
 Bun also replaces `package.lock` file with `bun.lockb` file which is a binary. To add lodash with Bun run `bun add lodash` (this took 200 ms for me).
 
-<!-- ## Final
+## Deno permissions management
 
-Huh, it was a long journey! You can find more info in [official documentation](https://nodejs.org/docs/latest/api/).
+Deno takes security seriously when running Javascript. By default, Deno scripts do not have access to the file system, network, environment variables, or other potentially sensitive resources. To access these resources, you must **explicitly grant permissions** using command-line flags.
 
-I hope you can feel now more confident using unpopular features of Node.js 😄! -->
+Let's see an example. We have `main.ts` file:
+
+```typescript
+const fileContent = await Deno.readTextFile('test.txt');
+const result = fileContent.replace(/{name}/g, 'John');
+await Deno.writeTextFile('./test.txt', result);
+```
+
+If you just run `bun run main.ts` then script won't start. You will see a prompt asking to allow read and write permissions. You can use flags to allow them without prompting.
+
+```sh
+deno run --allow-write --allow-read  main.ts
+```
+
+Same permission management model will apply to the following:
+
+- file system `--allow-read` and `--alow-write`
+- network access `--allow-net`
+- environment vars `--allow-env`
+- run subprocesses `--alow-run`
+- all permissions `--allow-all`
+
+🔒 Security is a big concern nowadays and making Javascript programms more secure makes me happy. I see only benefits in this approach, even though allowing stuff can be annoying. But sometimes very surprising, like in this example with `chalk`:
+
+```javascript
+import chalk from 'npm:chalk';
+console.log(chalk.green('Hello, world!'));
+```
+
+Would you ever guess that making a console log green also involves _reading 5 environment_ variables? When you run this with Deno, it will prompt you for permission to read each one of them and list them as well. This provides excellent awareness 👀.
+
+However...hold your horses again! Because a recent release of Nodejs v22 also has [permissions](https://nodejs.org/api/permissions.html#permissions). This feature is available with `--experimental-permission` flag and looks like this:
+
+```
+node --experimental-permission --allow-fs-read=* --allow-fs-write=* index.js
+```
+
+Without providing corresponding flags you will get an error saying "Error: Access to this API has been restricted".
+
+## All-in-one Tools (Deno and Bun)
+
+Deno enhance the developer experience (DX) by integrating several essential tools directly into the runtime. It has built-in features like:
+
+- formatter
+- linter
+- test runner
+- executable compilation
+
+You can forget about `prettier`, `eslint` and `tsc` 😅 . Honesty, I am glad to see idea becomes popular because setting up these **absolutely necessary tools** over and over again is very annoying.
+
+Commands like `deno fmt`, `deno lint` and `deno test` are available for you without any additional packages.
+
+Compile is an interesting feature (`deno compile main.ts`), it actually takes your Javascript together with runtime and creates a binary output as single executable file. 
+
+Unfortunately, both Bun and Node.js have not gone as far as Deno in this regard. They **do not have** built-in format and lint commands.
+
+However, all three runtimes have built-in test runners. Tests in Node.js, Bun, and Deno have a `jest-like` syntax and look very similar.
+
+Here is a test example using Node test runner. Use `node --test` to run it.
+
+```javascript
+import { describe, it } from 'node:test';
+import assert from 'assert';
+
+describe('great test', () => {
+  it('should be 1', () => {
+    assert.strictEqual(1, 1);
+  });
+
+  it('should be 2', () => {
+    assert.strictEqual(2, 2);
+  });
+}); 
+```
+
+> Test runner in Node is considered stable, read more [here](https://nodejs.org/api/test.html).
+
+## Node compatibility
+
+Both Deno and Bun are created as drop-in Node replacements and trying to provide full Node.js compatibility.
+
+This includes support for common Node.js APIs and the ability to run existing JavaScript and TypeScript code.
+
+For example this code is valid in all three runtimes:
+
+```javascript
+import fs from 'node:fs';
+
+const fileContent = fs.readFileSync('./test.txt', 'utf-8');
+console.log(fileContent);
+```
+
+This is an important feature to make the transition for developers as smooth as possible.
+
+## Examples (HTTP server)
+
+TBD
+
+## Final
+
+I hope you enjoyed reading this article 😄. I aimed to keep it small, so I skipped over many cool features.
+
+If you're eager to learn more about Deno and Bun, I highly recommend visiting their documentation sites:
+
+- [Deno Documentation](https://docs.deno.com/)
+- [Bun Documentation](https://bun.sh/docs)
+
+Happy coding!
