@@ -24,12 +24,12 @@ Deno is a modern runtime for JavaScript and TypeScript, created by Ryan Dahl, th
 
 **Bun**
 
-Bun is relatively new JavaScript and TypeScript runtime that focuses on performance and developer experience. Bun first version was released in 2021. Bun is written in Zig programming langauge and unlike Node and Deno uses WebKit's JavaScriptCore engine.
+Bun is relatively new JavaScript and TypeScript runtime that focuses on performance and developer experience. Bun first version was released in 2021. Bun is written in Zig programming language and unlike Node and Deno uses WebKit's JavaScriptCore engine.
 
 
 ## Typescript
 
-Typescript is first class citizen in Deno and Bun. This means both runtimes **can execute** `.ts` files without need of `ts.config` and compilation. 
+Typescript is a first class citizen in Deno and Bun. This means both runtimes **can execute** `.ts` files without need of `ts.config` and compilation. 
 
 I personally think this is an awesome feature, which made me try Deno and Bun in the first place.
 
@@ -48,7 +48,7 @@ console.log(myAccountType);
 
 To run with Bun use `bun run example.ts` and it just works! Same about Deno, simply `deno run example.ts`. Just perfect!
 
-With Nodejs you can use a trick to run it, `npx tsx example.ts`. And this also works, but its a trick because it temporary installs tsx compiler for one run.
+With Nodejs you can use a trick to run it, `npx tsx example.ts`. And this also works, but its a trick because it temporarily installs tsx compiler for one run.
 
 However...hold your horses. Because a recent release of **Nodejs v22** already has an experimental flag to enable executing typescript files. 🧐
 
@@ -60,9 +60,9 @@ Anyway this is a very cool feature of Nodejs and a big step forward.
 
 ## Dependency management
 
-Node.js uses npm to manage dependencies. They are listed in `package.json` file and needs to be installed by `npm install` into a black hole folder called `node_modules`. 🌚 This folder usually gets gigantic since it has project dependencies and all dependencies of dependencies...
+Node.js uses npm to manage dependencies. They are listed in `package.json` file and need to be installed by `npm install` into a black hole folder called `node_modules`. 🌚 This folder usually gets gigantic since it has project dependencies and all dependencies of dependencies...
 
-Let's first have a look at Deno, because it takes absolutely different approach to manage dependencies. Imports in Deno are called **URL-based imports** and look something like this:
+Let's first have a look at Deno, because it takes an absolutely different approach to manage dependencies. Imports in Deno are called **URL-based imports** and look something like this:
 
 ```javascript
 import { serve } from "https://deno.land/std@0.106.0/http/server.ts";
@@ -72,9 +72,9 @@ In Deno you don't need to run a separate command like `deno install` and it also
 
 > Deno also provides support for `package.json` and `node_modules` folder as part of backward Nodejs compatibility, as well as `deno install`.
 
-I know you probably think that having _ugly long urls_ are no very convenient 😆, leave alone that versions are hardcoded inside string. There is a solution though, which is a `deno.json` file. This file acts similliar to `package.json`, it has tasks to run and also listed dependencies with the versions, which allow you simply to create aliases for imports. 
+I know you probably think that having _ugly long urls_ are no very convenient 😆, leave alone that versions are hardcoded inside string. There is a solution though, which is a `deno.json` file. This file acts similar to `package.json`, it has tasks to run and also listed dependencies with the versions, which allow you simply to create aliases for imports. 
 
-Let's make an example of adding **lodash** package. Run `deno add lodash`, it will first try to find this package in [JSR](https://jsr.io/) and then will suggest to add it from [npm](https://www.npmjs.com/). After that you will se a `deno.json` file like this:
+Let's make an example of adding **lodash** package. Run `deno add lodash`, it will first try to find this package in [JSR](https://jsr.io/) and then will suggest to add it from [npm](https://www.npmjs.com/). After that you will see a `deno.json` file like this:
 
 ```json
 {
@@ -87,7 +87,7 @@ Let's make an example of adding **lodash** package. Run `deno add lodash`, it wi
 }
 ```
 
-Here in `imports` section we simply resolve lodash import to an npm package with specific version. This is how you can use this in code after:
+Here in the `imports` section we simply resolve lodash import to an npm package with specific version. This is how you can use this in code after:
 
 ```typescript
 import _ from 'lodash';
@@ -95,11 +95,11 @@ import _ from 'lodash';
 
 Personally, I find URL imports to be complicated and an unnecessary learning curve 😞. This feature seems overly complex and doesn't offer significant benefits compared to Node.js imports and the `package.json` approach.
 
-I mentioned that Deno will try to find package in **JSR** registry first, this is a new alternative to npm registry created by Deno team. JSR main feature is security, transparency and typescript support.
+I mentioned that Deno will try to find package in **JSR** registry first, this is a new alternative to npm registry created by Deno team. JSR main features are security, transparency and typescript support.
 
 So what about Bun dependencies? 🤔
 
-With Bun you use dependencies in exactly same way as in Node. It also has same `package.json` file and it also has `node_modules` folder. The main imporovement of Bun is **blazingly fast installation** of packages. Yes..it is that fast. Simply try it yourself. 
+With Bun you use dependencies in exactly same way as in Node. It also has same `package.json` file and it also has `node_modules` folder. The main improvement of Bun is **blazingly fast installation** of packages. Yes..it is that fast. Simply try it yourself. 
 
 Bun also replaces `package.lock` file with `bun.lockb` file which is a binary. To add lodash with Bun run `bun add lodash` (this took 200 ms for me).
 
@@ -129,7 +129,7 @@ Same permission management model will apply to the following:
 - run subprocesses `--alow-run`
 - all permissions `--allow-all`
 
-🔒 Security is a big concern nowadays and making Javascript programms more secure makes me happy. I see only benefits in this approach, even though allowing stuff can be annoying. But sometimes very surprising, like in this example with `chalk`:
+🔒 Security is a big concern nowadays and making Javascript programs more secure makes me happy. I see only benefits in this approach, even though allowing stuff can be annoying. But sometimes very surprising, like in this example with `chalk`:
 
 ```javascript
 import chalk from 'npm:chalk';
@@ -159,7 +159,7 @@ You can forget about `prettier`, `eslint` and `tsc` 😅 . Honesty, I am glad to
 
 Commands like `deno fmt`, `deno lint` and `deno test` are available for you without any additional packages.
 
-Compile is an interesting feature (`deno compile main.ts`), it actually takes your Javascript together with runtime and creates a binary output as single executable file. 
+Compile is an interesting feature (`deno compile main.ts`), it actually takes your Javascript together with runtime and creates a binary output as a single executable file. 
 
 Unfortunately, both Bun and Node.js have not gone as far as Deno in this regard. They **do not have** built-in format and lint commands.
 
@@ -190,7 +190,7 @@ Both Deno and Bun are created as **drop-in Node replacements** and trying to pro
 
 This includes support for common Node.js APIs and the ability to run existing JavaScript and TypeScript code.
 
-For example this code is valid in all three runtimes:
+For example, this code is valid in all three runtimes:
 
 ```javascript
 import fs from 'node:fs';
