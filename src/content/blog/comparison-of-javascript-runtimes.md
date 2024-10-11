@@ -138,7 +138,7 @@ console.log(chalk.green('Hello, world!'));
 
 Would you ever guess that making a console log green also involves _reading 5 environment_ variables? When you run this with Deno, it will prompt you for permission to read each one of them and list them as well. This provides excellent awareness 👀.
 
-However...hold your horses again! Because a recent release of Nodejs v22 also has [permissions](https://nodejs.org/api/permissions.html#permissions). This feature is available with `--experimental-permission` flag and looks like this:
+However...hold your horses again! Because a recent release of **Nodejs v22** also has [permissions](https://nodejs.org/api/permissions.html#permissions). This feature is available with `--experimental-permission` flag and looks like this:
 
 ```
 node --experimental-permission --allow-fs-read=* --allow-fs-write=* index.js
@@ -155,7 +155,7 @@ Deno enhance the developer experience (DX) by integrating several essential tool
 - test runner
 - executable compilation
 
-You can forget about `prettier`, `eslint` and `tsc` 😅 . Honesty, I am glad to see idea becomes popular because setting up these **absolutely necessary tools** over and over again is very annoying.
+You can forget about `prettier`, `eslint` and `tsc` 😅 . Honesty, I am glad to see this idea becomes popular because setting up these **absolutely necessary tools** over and over again is very annoying.
 
 Commands like `deno fmt`, `deno lint` and `deno test` are available for you without any additional packages.
 
@@ -256,6 +256,8 @@ async function handler(req: Request): Promise<Response> {
 Feels like a breath of fresh air after Nodejs 🍃!
 
 ## Final
+
+In conclusion, competition is always beneficial. It drives Node.js to improve and adopt new features more quickly, enhancing the overall ecosystem.
 
 I hope you enjoyed reading this article 😄. I aimed to keep it small, so I skipped over many cool features.
 
