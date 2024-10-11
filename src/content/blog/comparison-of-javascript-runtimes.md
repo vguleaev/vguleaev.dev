@@ -72,7 +72,7 @@ In Deno you don't need to run a separate command like `deno install` and it also
 
 > Deno also provides support for `package.json` and `node_modules` folder as part of backward Nodejs compatibility, as well as `deno install`.
 
-I know you probably think that having _ugly long urls_ are no very convenient 😆, leave alone that versions are hardcoded inside string. There is a solution though, which is a `deno.json` file. This file acts similar to `package.json`, it has tasks to run and also listed dependencies with the versions, which allow you simply to create aliases for imports. 
+I know you probably think that having _ugly long urls_ are not very convenient 😆, leave alone that versions are hardcoded inside string. There is a solution though, which is a `deno.json` file. This file acts similar to `package.json`, it has tasks to run and also listed dependencies with the versions, which allow you simply to create aliases for imports. 
 
 Let's make an example of adding **lodash** package. Run `deno add lodash`, it will first try to find this package in [JSR](https://jsr.io/) and then will suggest to add it from [npm](https://www.npmjs.com/). After that you will see a `deno.json` file like this:
 
