@@ -115,7 +115,7 @@ const result = fileContent.replace(/{name}/g, 'John');
 await Deno.writeTextFile('./test.txt', result);
 ```
 
-If you just run `bun run main.ts` then script won't start. You will see a prompt asking to allow read and write permissions. You can use flags to allow them without prompting.
+If you just run `deno run main.ts` then script won't start. You will see a prompt asking to allow read and write permissions. You can use flags to allow them without prompting.
 
 ```sh
 deno run --allow-write --allow-read  main.ts
