@@ -20,7 +20,7 @@
 }
 
 .prose > blockquote > p > a {
-  @apply text-rose-600 decoration-2 hover:underline font-medium;
+  @apply text-rose-600 dark:text-rose-400 decoration-2 hover:underline font-medium;
 }
 
 .prose > blockquote > p > code {
@@ -37,7 +37,7 @@
 }
 
 .prose > ul > li > a {
-  @apply text-rose-600 decoration-2 hover:underline font-medium;
+  @apply text-rose-600 dark:text-rose-400 decoration-2 hover:underline font-medium;
 }
 
 .prose > uL > li > code {
@@ -50,7 +50,7 @@
 }
 
 .prose > p > a {
-  @apply text-rose-600 decoration-2 hover:underline font-medium;
+  @apply text-rose-600 dark:text-rose-400 decoration-2 hover:underline font-medium;
 }
 
 .prose > p > code {
