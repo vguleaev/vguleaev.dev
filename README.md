@@ -4,7 +4,7 @@ Personal Blog by Vladislav Guleaev
 
 https://vguleaev.dev
 
-Tech Stack:
+## Tech Stack:
 
 - [Astro](https://astro.build/)
 - [Tailwind CSS](https://tailwindcss.com/)
