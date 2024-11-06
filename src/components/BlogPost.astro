@@ -1,15 +1,15 @@
 ---
 import { Image } from 'astro:assets';
 import { formatDate } from '../utils/date.helper';
-const { post } = Astro.props;
+const { post, width = 720, height = 360 } = Astro.props;
 ---
 
 <a class="group block" href={`/blog/${post.slug}/`}>
   <div class="overflow-hidden rounded-xl">
     <Image
       class="w-full object-cover rounded-xl lg:group-hover:scale-105 transition-transform duration-500 ease-in-out"
-      width={720}
-      height={360}
+      width={width}
+      height={height}
       src={post.data.image.url}
       alt={post.data.image.alt}
     />
