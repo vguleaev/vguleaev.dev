@@ -67,7 +67,7 @@ My favorite Tailwind component libraries are: [shadcn](https://ui.shadcn.com/) a
 
 For most of the projects you will highly likely have frontend and backend. I find it convenient to have both of them in one git repo.
 
-They can be built/deployed together or separate but they are in one single repo. This allows you benefit from code sharing between frontend and backend, which is good for **Typescript interfaces sharing**. Also I simply find it easier to search and navigate since my side projects are never big.
+They can be built/deployed together or separately, but they are in one single repo. This allows you benefit from code sharing between frontend and backend, which is good for **Typescript interfaces sharing**. Also I simply find it easier to search and navigate since my side projects are never big.
 
 I have all my side projects public on [Github](https://github.com/vguleaev).
 
@@ -80,7 +80,7 @@ When I write backend for my apps I usually choose between two paths:
 
 Both options are fine in my opinion, but I prefer traditional **API server** 💪. Simply because it doesn't limit me.
 If I want persistent connection, I can do it. If I want to run a long running job, I can do it.
-Also, there is no surprises because locally I am using same runtime as when it's deployed.
+Also, there are no surprises because locally I am using same runtime as when it's deployed.
 
 **Serverless functions** can be picked as a cheap backend, most of the providers (e.g. Netlify, Vercel) will let you run thousands of them almost for free!
 Which is very cool for a side project!
