@@ -64,7 +64,7 @@ If you go with Vercel hosting I recommend you to include this Vercel adapter in 
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
-import vercel from '@astrojs/vercel/static';
+import vercel from '@astrojs/vercel';
 
 export default defineConfig({
   site: 'https://yoursite.com',

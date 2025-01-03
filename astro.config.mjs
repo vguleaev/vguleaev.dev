@@ -3,7 +3,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 
-import vercel from '@astrojs/vercel/static';
+import vercel from '@astrojs/vercel';
 import { remarkReadingTime } from './src/utils/reading-time.helper';
 
 // https://astro.build/config

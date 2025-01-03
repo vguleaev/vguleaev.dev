@@ -13,10 +13,8 @@
   </svg>
 </button>
 
-<script lang="ts">
+<script lang="ts" is:inline>
   document.addEventListener('astro:page-load', () => {
-    // import {SITE_METADATA} from "../consts";
-
     // Detect system preference change
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
       setTheme(event.matches ? 'dark' : 'light');
@@ -45,9 +43,6 @@
     // Detect system preference
     if (!localStorage.getItem('theme')) {
       let isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      // if (SITE_METADATA.theme !== 'system') {
-      //     isDark = SITE_METADATA.theme === 'dark'
-      // }
       setTheme(isDark ? 'dark' : 'light');
     }
 
