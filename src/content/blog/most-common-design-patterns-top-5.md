@@ -8,13 +8,13 @@ image:
 tags: ['Javascript', 'Typescript', 'Design Patterns']
 ---
 
-Design Patterns are something that every respectful software engineer need to know, right?
+Design Patterns are something that every respectable software engineer needs to know, right?
 
-At least that what we are told. I did several tries during my career to study them and still most of them I have never implemented even once. Are they still relevant after 30 years? Does it worth learning them today?
+At least that's what we are told. I did several attempts during my career to study them, and still most of them I have never implemented even once. Are they still relevant after 30 years? Is it worth learning them today?
 
-These type of questions I asked myself multiple times. There are 23 classic Design Patterns presented in [well known book](https://en.wikipedia.org/wiki/Design_Patterns) written by Erich Gamma, Richard Helm, Ralph Johnson and John Vlissides (_also known as "Gang of Four" book_) in 1994.
+These types of questions I've asked myself multiple times. There are 23 classic Design Patterns presented in [well-known book](https://en.wikipedia.org/wiki/Design_Patterns) written by Erich Gamma, Richard Helm, Ralph Johnson and John Vlissides (_also known as "Gang of Four" book_) in 1994.
 
-My personal opinion is that mastering all of them is **completely unnecessary**.
+In my opinion, mastering all of them is **completely unnecessary**.
 
 But knowing some of them, most popular and less complicated can be beneficial for your career, especially if you work with corporate languages like Java and C#.
 
@@ -61,7 +61,7 @@ class AccountFactory {
 
 Is this a Factory? **Yes, it is**. Is this a Design Pattern? **Not really**.
 
-Well at least it's not a design pattern described in the original "Gang of Four" book. In fact a pattern called "Factory" **does not even exist** in the book, instead there are "Factory Method" and "Abstract Factory" patterns. Those patterns heavily rely on inheritance and method overwriting.
+Well at least it's not a design pattern described in the original "Gang of Four" book. In fact a pattern called "Factory" **does not even exist** in the book, instead there are "Factory Method" and "Abstract Factory" patterns. Those patterns heavily rely on inheritance and method overriding.
 
 So do we still need to know this simple factory version?
 
@@ -85,7 +85,7 @@ This is still a factory class. Remember, the idea is to incapsulate object creat
 
 ## Builder
 
-Second pattern I want to show you is called **"Builder"**.
+The second pattern I want to show you is called **"Builder"**.
 
 It is also a creational design pattern same as Factory. Builder also can produce objects, but it constructs them **step by step** and can create **different variations** of the same object via some construction functions.
 
@@ -148,7 +148,7 @@ Structural patterns are all about objects relationships, specifically called [as
 
 Decorator pattern can dynamically **add new behavior to objects without changing their structure**. Every time you create a **wrapper** object that enriches others object behavior you implement a decorator pattern.
 
-Let's have a look this example:
+Let's have a look at this example:
 
 ```typescript
 interface IDatabase {
@@ -198,7 +198,7 @@ Let's have a look at example:
 ```typescript
 class LegacyPaymentSystem {
   pay(amount: number) {
-    console.log(`Paying ${amount} in old way`);
+    // pay in old way
   }
 }
 
@@ -208,7 +208,7 @@ interface IModernPaymentSystem {
 
 class ModernPaymentSystem implements IModernPaymentSystem {
   process(amount: number) {
-    console.log(`Processing payment of ${amount} through the new system.`);
+    // process through new system
   }
 }
 
@@ -233,8 +233,72 @@ For those places, we can introduce an `PaymentAdapter` class that will have **ne
 
 Adapter acts like a bridge between the client code and existing implementation, enabling client to use the new interface wile still relaying on the old implementation.
 
-> Adapter can also work in the reverse way called "Reverse Adapter".
+> Adapter pattern can also be used in reverse way, known as "Reverse Adapter".
 
 ## Strategy
 
-TBD
+The final pattern is called **"Strategy"**. It is a behavioral pattern.
+
+You probably implemented it already without knowing it 😆 (_happens with many patterns actually, hello Facade?_).
+
+Strategy allows you to define a **family of algorithms** with single interface which can be **used interchangeable**. Basically, when we have a set of operations that are repeated but implemented in different ways, we can use the strategy pattern.
+
+Here is an example:
+
+```typescript
+interface ShippingStrategy {
+  transport(order);
+}
+
+class AirTransporter implements ShippingStrategy {
+  transport(order) {
+    console.log('Air shipping');
+  }
+}
+
+class NavalTransporter implements ShippingStrategy {
+  transport(order) {
+    console.log('Ground shipping');
+  }
+}
+
+class ShippingManager {
+  private strategy: ShippingStrategy;
+
+  setStrategy(strategy) {
+    this.strategy = strategy;
+  }
+
+  deliver(order) {
+    this.strategy.transport(order);
+  }
+}
+```
+
+In this example we created `AirTransporter` and `NavalTransporter` strategies, which transport items in a different way but use the same interface. This allows us to easy support other strategies in future like `GroundTransporter` and so on.
+
+Now we need to select a desired strategy based on some conditions and for this we can use `if else`, `switch case` or `HashMap` (_dictionary_). In the following example, we select shipping strategy based on customer region:
+
+```typescript
+const CUSTOMER_REGION = 'EU_REGION';
+
+const strategiesMap = {
+  EU_REGION: new NavalTransporter(),
+  USA_REGION: new AirTransporter(),
+};
+
+const shippingManager = new ShippingManager();
+shippingManager.setStrategy(strategiesMap[CUSTOMER_REGION]);
+shippingManager.deliver({ item: 'item' }); // Shipping by sea
+```
+
+## Final
+
+We have come to the end of my top 5 Design Patterns list! 🎉
+
+In the end, I want to say that many Design Patterns are very close to each other. They are also flexible and
+can be implemented in different ways which makes them even more alike. "Proxy", "Decorator", "Bridge" and "Adapter" are quite similar, same about "Command", "Template Method" and "Strategy". Some of them are very trivial like "Prototype" or "Facade" and you doubt why it even deserve to be a pattern.
+
+This list can give you a rough overview of which patterns exist and are popular. Learning one can give you an idea about how others look like.
+
+Hope you found this useful and learned something! 😃
