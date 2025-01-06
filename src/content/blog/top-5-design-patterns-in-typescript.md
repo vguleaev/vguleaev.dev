@@ -1,9 +1,9 @@
 ---
-title: 'Most common Design Patterns (top 5)'
-description: 'Top 5 Design Patterns in Typescript'
+title: 'Top 5 Design Patterns in Typescript'
+description: 'Lists of most common Design Patterns you can easy in daily programming'
 pubDate: 2025-01-04
 image:
-  url: './covers/most-common-design-patterns-top-5.png'
+  url: './covers/top-5-design-patterns-in-typescript.png'
   alt: 'Blog post image'
 tags: ['Javascript', 'Typescript', 'Design Patterns']
 ---
@@ -231,7 +231,7 @@ Some parts of the system already use the new way of payments, but there are some
 
 For those places, we can introduce an `PaymentAdapter` class that will have **new interface** but internally uses **old functionality**. This allows us to have consistency without breaking our system.
 
-Adapter acts like a bridge between the client code and existing implementation, enabling client to use the new interface wile still relaying on the old implementation.
+Adapter acts like a bridge between the client code and existing implementation, enabling client to use the new interface while still relaying on the old implementation.
 
 > Adapter pattern can also be used in reverse way, known as "Reverse Adapter".
 
