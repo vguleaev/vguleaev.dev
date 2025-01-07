@@ -258,7 +258,7 @@ class AirTransporter implements ShippingStrategy {
 
 class NavalTransporter implements ShippingStrategy {
   transport(order) {
-    console.log('Ground shipping');
+    console.log('Shipping by sea');
   }
 }
 
