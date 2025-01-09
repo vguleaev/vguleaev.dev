@@ -1,6 +1,6 @@
 ---
 title: 'Top 5 Design Patterns in Typescript'
-description: 'Lists of most common Design Patterns you can easy in daily programming'
+description: 'Lists of most common Design Patterns you can easy use in daily programming'
 pubDate: 2025-01-04
 image:
   url: './covers/top-5-design-patterns-in-typescript.png'
