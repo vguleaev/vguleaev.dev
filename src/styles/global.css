@@ -68,3 +68,17 @@
 .prose > pre > code {
   all: unset;
 }
+
+/* Styles for the markdown headings within .prose. */
+.prose h2 > a::after {
+  content: '#';
+  margin-left: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.prose h2:hover a::after,
+.prose h3:hover a::after,
+.prose h4:hover a::after {
+  opacity: 1;
+}
