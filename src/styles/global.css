@@ -8,11 +8,11 @@
 }
 
 .prose > h2 {
-  @apply text-2xl font-bold md:text-3xl dark:text-white;
+  @apply text-xl font-bold md:text-3xl dark:text-white;
 }
 
 .prose > h3 {
-  @apply text-2xl font-bold md:text-3xl dark:text-white;
+  @apply text-lg font-normal md:text-lg dark:text-white;
 }
 
 .prose > blockquote {
