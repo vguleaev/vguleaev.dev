@@ -210,7 +210,7 @@ You can create a separate collection that stores the relationships between two c
 }
 ```
 
-Creating an intermediate table is a classic SQL solution to many-to-many relationships.
+Creating an intermediate table is a classic relational db solution to many-to-many relationships.
 
 This approach is more flexible and scalable. You can easily add more fields to the junction collection, like `enrollmentDate`, `grade`, etc.
 
