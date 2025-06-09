@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import fitbauImage from '../images/projects/fitbau-preview.png';
 import plannerImage from '../images/projects/planner-preview.png';
+import conceptsImage from '../images/projects/concepts-preview.png';
 
 const pageTitle = 'Projects';
 
@@ -34,6 +35,20 @@ const projects = [
     links: {
       live: '',
       github: 'https://github.com/vguleaev/planner',
+    },
+  },
+  {
+    title: 'Concepts for SWE',
+    description: `
+    Concepts for Software Engineers is a collection of articles and resources that cover essential software engineering concepts,
+    algorithms, and data structures. It is designed to help developers focus on concepts rather than specific technologies.
+    `,
+    image: conceptsImage,
+    imageAlt: 'Planner project preview',
+    technologies: ['Nextra', 'Tailwind', 'MDX', 'Vercel'],
+    links: {
+      live: '',
+      github: 'https://github.com/vguleaev/concepts',
     },
   },
 ];
