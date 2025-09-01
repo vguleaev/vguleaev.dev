@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BookCard from '../../components/BookCard.astro';
+
+const allBooks = await getCollection('books');
+const books = allBooks.sort((a, b) => b.data.finishedDate.valueOf() - a.data.finishedDate.valueOf());
+const pageTitle = 'Books I Read';
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <div class="flex justify-center">
+    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
+        <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Books</h2>
+        <p class="mt-1 text-gray-600 dark:text-gray-400">
+          A collection of books I've read with my brief notes about them.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10 place-items-center">
+        {books.map((book) => <BookCard book={book} width={360} height={540} />)}
+      </div>
+    </div>
+  </div>
+</BaseLayout>

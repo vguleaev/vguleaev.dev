@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import { Image } from 'astro:assets';
+
+type Props = CollectionEntry<'books'>['data'];
+
+const { title, description, author, image } = Astro.props as Props;
+---
+
+<BaseLayout pageTitle={title} description={description} image={image}>
+  <article class="max-w-4xl px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 md:mx-auto">
+    <div class="flex justify-center mb-10">
+      <Image class="object-cover rounded-md" width={300} height={450} src={image.url} alt={image.alt} />
+    </div>
+    <div>
+      <div class="flex flex-col mb-4 text-gray-700 dark:text-gray-300">
+        <h1 class="text-2xl font-bold md:text-3xl">{title}</h1>
+        <p class="mt-1 text-sm">by {author}</p>
+      </div>
+      <div class="prose">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>

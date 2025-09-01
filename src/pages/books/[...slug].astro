@@ -1,0 +1,25 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BookReviewLayout from '../../layouts/BookReviewLayout.astro';
+
+export async function getStaticPaths() {
+  const books = await getCollection('books');
+  return books.map((book) => ({
+    params: { slug: book.slug },
+    props: book,
+  }));
+}
+type Props = CollectionEntry<'books'>;
+
+const book = Astro.props as Props;
+const { Content, remarkPluginFrontmatter } = await book.render();
+
+const layoutProps = {
+  ...book.data,
+  readingTime: remarkPluginFrontmatter?.minutesRead,
+};
+---
+
+<BookReviewLayout {...layoutProps}>
+  <Content />
+</BookReviewLayout>
