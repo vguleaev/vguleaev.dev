@@ -60,3 +60,21 @@ One of the most important goals of good design is for a system **to be obvious**
 It's easy to convince yourself that a little bit of complexity introduced by your current change is no big deal. However if every developer takes this approach, complexity accumulates rapidly.
 
 ## Chapter 3. Working Code Isn't Enough
+
+There are two approaches to programming: **strategic** and **tactical**.
+
+Many organizations encourage tactical mindset, focused on getting features as quickly as possible. However if you want a good design, you must take a more strategic approach where you invest time to produce clean designs.
+
+In tactical approach your main focus is get something working, perhaps you have a hard deadline. As a result you don't spend time planning for the future. This is how systems become complicated.
+
+If you program tactically, each change will contribute a little bit of complexity. Each change probably seems like reasonable compromise in order to finish current task quickly. However, the complexities accumulate rapidly, especially if everyone is programming tactically. Latter you will beging to wish you hadn't taken those shortcuts.
+
+Good software engineers realize that **working code isn't enough**. It is not acceptable to introduce complexity just to finish your current task faster.
+
+In strategic approach your primary goal is to produce clean designs. This requires an investment mindset. This will slowdown you in the short term, but they will speed you up in the long term.
+
+The term _"technical debt"_ is often used to describe the problems caused by tactical programming. By programming tactically you are borrowing time from the future.
+
+Thus, the best approach is to make lots of small investments on continuous basis, spending around 10-20% of your total development time on **investments**.
+
+## Chapter 4. Modules Should Be Deep
