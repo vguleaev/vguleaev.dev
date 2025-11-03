@@ -89,11 +89,15 @@ This desire to track progress is important but can still be achieved with messag
 
 ## Hybrid Approach (Best of Both Worlds)
 
-Hybrid approach is what I would like recommend in most case. What many applications do is to use message queues for processing tasks but also log the status of each task in the database.
+Hybrid approach is what I would like recommend in most case 👍. What many applications do is to use message queues for processing tasks but also log the status of each task in the database.
 
-This means we always insert job record in the database with status `"pending"`. Then we push the task to the message queue for processing. A worker will pick up the task from the queue and process it. Then it will update the status in the database accordingly.
+Imagine a scenario where user uploads a document for some background processing. You can imagine the following flow:
 
-This approach uses full power of message queues while still providing visibility into task status through the database. You can build a nice dashboard by just querying job records from the database and see how many tasks are `"pending"`, `"processed"`, or `"failed"`.
+![Alt text](../../images/posts/hybrid-db-message-queue.png)
+
+Our application will insert job record in the database with status `"pending"`. Then we push the task to the message queue for processing. A worker is subscribed to the queue and will pick up the task to process it. Then it will update the status in the database accordingly.
+
+This approach uses full power of message queues while still providing **visibility** into task status through the database. You can build a nice dashboard by just querying job records from the database and see how many tasks are `"pending"`, `"processed"`, or `"failed"`. You can latter reprocess failed tasks by pushing them back to the message queue.
 
 ## Final
 
