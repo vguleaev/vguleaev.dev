@@ -85,7 +85,7 @@ The only part where message queues fall short is visibility of tasks and their s
 
 It is very convenient to simply run the query `SELECT * FROM jobs` and see how many tasks are `"pending"`, `"processed"` and `"failed"`.
 
-This desire to track progress is important but can still be achieved with messages queues by implementing **hybrid approach**. This is what you will see in most applications in production.
+This desire to track progress is important, but can still be achieved with message queues by implementing **hybrid approach**. This is what you will see in most applications in production.
 
 ## Hybrid Approach (Best of Both Worlds)
 
