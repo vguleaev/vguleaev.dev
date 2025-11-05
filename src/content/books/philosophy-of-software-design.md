@@ -76,5 +76,3 @@ In strategic approach your primary goal is to produce clean designs. This requir
 The term _"technical debt"_ is often used to describe the problems caused by tactical programming. By programming tactically you are borrowing time from the future.
 
 Thus, the best approach is to make lots of small investments on continuous basis, spending around 10-20% of your total development time on **investments**.
-
-## Chapter 4. Modules Should Be Deep
