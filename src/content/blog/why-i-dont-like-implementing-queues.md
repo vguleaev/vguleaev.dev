@@ -34,7 +34,7 @@ Another reason why database is not an efficient queue is because of **concurrenc
 
 The problem in this scenario is that multiple workers will try to read and write to the same table concurrently. Fetching either already processed tasks or overwriting each other. So you will either make sure only one worker always works at a time, or you will have to deal with implementing some locking mechanisms. 🔒
 
-This also defeats the purpose of having multiple workers in the first place. You can not reduce processing time and scale workers anymore. 🐌
+This also defeats the purpose of having multiple workers in the first place. You can not reduce processing time or scale workers anymore. 🐌
 
 Additionally, polling overhead from cron job, updating tasks status and locking can lead to some load to database, which could be easily avoided by using proper queue.
 
@@ -55,7 +55,7 @@ Using a database as a queue often introduces **unnecessary delays** in message p
 
 Let's say your cron job runs every minute. ⏳ Even if there is no requirement from business side how fast task must be processed, you still have to wait for the next cron job execution.
 
-This happens for absolutely no reason 😅. Why does this 1 minute delay even exist? Did anybody ask for it? This delay is artificial because of the technical implementation choice.
+This happens for absolutely no reason 😅. Why does this 1 minute delay even exist? Did anybody ask for it? This delay is artificial, because of the technical implementation choice.
 
 ## Comparing Pros and Cons
 
@@ -97,7 +97,7 @@ Imagine a scenario where user uploads a document for some background processing 
 
 Our application will insert job record in the database with status `"pending"`. Then we push the task to the message queue for processing. A worker is subscribed to the queue and will pick up the task to process it. Then it will update the status in the database accordingly.
 
-This approach uses **full power of message queues** while still providing **visibility** into task status through the database. You can build a nice dashboard by just querying job records from the database and see how many tasks are `"pending"`, `"processed"`, or `"failed"`. You can latter reprocess failed tasks by pushing them back to the message queue.
+This approach uses **full power of message queues** while still providing **visibility** into task status through the database. You can build a nice dashboard by just querying job records from the database and see how many tasks are `"pending"`, `"processed"`, or `"failed"`. You can later reprocess failed tasks by pushing them back to the message queue.
 
 ## Final
 
