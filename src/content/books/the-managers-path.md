@@ -15,7 +15,7 @@ I did not read book fully cover to cover, but rather focused on chapters that we
 
 ## Core Chapters
 
-Chapters number 2,3 and 4 were particularly insightful for me:
+Chapters number 2, 3 and 4 were particularly insightful for me:
 
 - **Chapter 2: Mentoring** - This chapter discusses the importance of mentoring in career growth. It provides practical advice on how to find a mentor and how to be a good mentee. I found this chapter particularly useful with multiple real world examples.
 
@@ -25,7 +25,7 @@ Chapters number 2,3 and 4 were particularly insightful for me:
 
 ## Chapter 6+
 
-Chapter 6 and onwards were are more about managing teams and organizations. I found some parts interesting, but for now I am not in this step of my career yet, so I did not dive deep into these chapters and mostly skipped them.
+Chapter 6 and onwards were are more about managing multiple teams, other managers and organizations. I found some parts interesting, but for now I am not in this step of my career yet, so I did not dive deep into these chapters and mostly skipped them.
 
 I would recommend this book to any software engineer chasing the lead role. It doesn't matter if you go technical or managerial path, this book provides valuable insights into both directions. This helped me to understand both roles better and learn what my counterparts are dealing with on daily basis.
 
