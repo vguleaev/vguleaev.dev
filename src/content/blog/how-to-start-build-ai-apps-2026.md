@@ -52,7 +52,7 @@ For a regular web app, my recommendation is always [React](https://react.dev/) w
 
 These two together are incredibly popular in our community, and AI works perfectly with them. **Shadcn UI** limits the AI to use only its component library, which guarantees consistency across colors, theming, and UI elements. All you need to do is pick a branding color and add a logo svg. Boom... Done! 💣
 
-Use popular vibe codding tools to find inspiration for your UI like: [Vercel v0](https://v0.dev/) and [Lovable](https://lovable.dev/). Those use shadcn ui components by default.
+Use popular vibe codding tools to find inspiration for your UI, examples: [Vercel v0](https://v0.dev/) and [Lovable](https://lovable.dev/). Both of them use shadcn ui components by default.
 
 ## Where to use AI?
 
@@ -64,7 +64,7 @@ But how do you identify which parts of your app can actually benefit from AI? Th
 
 I understand, it is indeed hard to come up with **AI feature that is somehow useful**. But here are my recommendations:
 
-**LLMs produce non-deterministic output**. Every response is different. So build features where slight variations or minor errors are acceptable. This typically means text-based features: summaries, content generation, reports, analysis—anything where perfection isn't critical.
+**LLMs produce non-deterministic output**. Every response is different. So build features where slight variations or minor errors are acceptable. This typically means text-based features: summaries, content generation, reports, analysis anything where perfection isn't critical.
 
 Don't try to offload your entire app's business logic to AI and let it make all the decisions. You'll probably fail most of the time. I realized that AI is too random to give it full control, old plain "if" conditions still do job better and much more secure.
 
@@ -95,7 +95,7 @@ As a rule of thumb: when you build Agents that need to make decisions you should
 
 The cheapest and smartest models I'd recommend today are `GPT-4.1 mini` and `GPT-4.1 nano`. Medium-sized prompts _(10k tokens)_ cost roughly `$0.001`. Pretty much enough for learning and experimentation. Even if you accidentally spam requests, you're looking at maybe $1 wasted.
 
-**Use model comparison websites**, OpenAI has one for their models: https://platform.openai.com/docs/models/compare
+**Use model comparison websites**, OpenAI has [one for their models](https://platform.openai.com/docs/models/compare).
 
 Pay attention to: speed, reasoning capability, price per 1M tokens, context window, and knowledge cutoff date.
 
@@ -105,11 +105,11 @@ Do not worry about model intelligence, for most tasks cheap models are enough. O
 
 > I added $5 in credits to my OpenAI account and use it across all my AI apps. Even running multiple projects, my costs never exceed $1 per month.
 
-I am saying its cheap, but it depends on your usage intensity—how big your inputs and outputs are, and how many API calls you make. That's why **tracking your costs is crucial**. 💰
+I am saying its cheap, but it depends on your usage intensity how big your inputs and outputs are, and how many API calls you make. That's why **tracking your costs is crucial**. 💰
 
 ## LLM Observability
 
-**You are not serious if you are not doing any LLM observability**. It is essential for understanding costs, tracking requests, and debugging LLM responses.
+You are not serious if you are not doing any **LLM observability**. It is essential for understanding costs, tracking requests, and debugging LLM responses.
 
 I highly recommend you to use some tracking tools like [Langfuse](https://langfuse.com/) or [Langsmith](https://smith.langchain.com/). Both are very easy to connect.
 
