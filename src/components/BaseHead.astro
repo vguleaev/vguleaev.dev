@@ -43,6 +43,7 @@ const pageDescription = description || SITE_DESCRIPTION;
 <meta property="og:title" content={title} />
 <meta property="og:description" content={pageDescription} />
 <meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:logo" content={new URL('/favicon.ico', Astro.url)} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
