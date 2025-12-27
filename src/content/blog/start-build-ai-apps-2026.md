@@ -14,7 +14,7 @@ Let me guess: you're a software engineer watching the industry transform with AI
 
 Which tools should you use? Which models? What should you even build?
 
-This post is your helping hand for developers who've been thrown into the ocean of AI and feel lost or frustrated. Let's ride the wave together! 🌊
+This post is a helping hand for developers who've been thrown into the ocean of AI and feel lost or frustrated. Let's ride the wave together! 🌊
 
 ## Agentic Coding (IDEs)
 
