@@ -131,7 +131,7 @@ Cursor supports "Plan Mode" and multiple other IDEs also do. Sometimes it's call
 
 **You first look at the plan, read it, adapt it to your needs, then proceed with code generation.**
 
-The worst experience is when you wait for 30 seconds for Agent to finish, only to realize that's doing something weird 🤦‍♂️.
+The worst experience is when you wait for 30 seconds for Agent to finish, only to realize it's doing something weird 🤦‍♂️.
 
 Review the plan and understand it deeply. Only after you like the plan then allow Agent to make code changes.
 
