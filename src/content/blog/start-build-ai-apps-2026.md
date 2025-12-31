@@ -147,7 +147,7 @@ To solve this issue, many developers use a `TODO.md` file to **build memory for 
 
 Plan file _(or files)_ can be read by AI agents, adapted, shared with other developers and committed to the repository.
 
-I use this approach myself, I even created a custom Cursor prompt framework that helps to generate `TODO.md` file of Jira-like tasks, with checkboxes and acceptance criteria for each task. This lets me return to projects later with full context for a new chat session. Highly recommended strategy. 🔥
+I use this approach myself, I even created a custom [Cursor prompt library](https://github.com/vguleaev/cursor-todo-prompt-kit) that helps to generate `TODO.md` file of Jira-like tasks, with checkboxes and acceptance criteria for each task. This lets me return to projects later with full context for a new chat session. Highly recommended strategy. 🔥
 
 To guide AI Agents even more, you can use `AGENTS.md` file. This file contains **rules that AI must follow** when doing changes. This is becoming a standard in popular IDEs (Cursor, Kiro, Antigravity).
 
